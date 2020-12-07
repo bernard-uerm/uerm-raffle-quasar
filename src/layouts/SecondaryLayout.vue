@@ -13,6 +13,7 @@
         :resize="true"
         color="#fff"
       />
+      <!-- <Fireworks /> -->
       <router-view />
     </q-page-container>
   </q-layout>
@@ -20,6 +21,7 @@
 
 <script>
 import Snowf from 'vue-snowf'
+// import Fireworks from 'components/Fireworks.vue'
 export default {
   name: 'MainLayout',
   components: {
@@ -29,7 +31,7 @@ export default {
 </script>
 <style>
   body {
-    background-image: url('~assets/christmas-raffle.jpg');
+    background-image: url('~assets/christmas-raffle-plain.jpg');
     background-repeat: no-repeat;
     background-size: cover;
   }

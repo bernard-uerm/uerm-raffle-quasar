@@ -2,24 +2,36 @@
   <div>
     <div class="q-pa-md row items-start q-gutter-md justify-center">
       <q-card
-        class="my-card text-white card-border-primary"
+        class="card-raffle text-white card-border-primary relative-position"
         v-for="raffle in raffles"
         :key="raffle.name"
         v-bind="raffle"
       >
-        <q-card-section>
-          <div class="text-h6 text-weight-thin text-primary">{{raffle.name}}</div>
-        </q-card-section>
-        <q-card-actions class="row items-start q-gutter-md justify-center">
-          <q-btn
-            @click="drawRaffle(raffle.id)"
-            color="primary"
-            icon="flag"
-            large
+        <div></div>
+        <transition
+            appear
+            enter-active-class="animated fadeIn"
+            leave-active-class="animated fadeOut"
           >
-            START
-          </q-btn>
-        </q-card-actions>
+          <div v-show="showCard">
+            <q-card-section>
+              <div class="text-h6 text-weight-thin text-primary">{{raffle.name}}</div>
+            </q-card-section>
+            <q-card-actions class="row items-start q-gutter-md justify-center">
+              <q-btn
+                @click="drawRaffle(raffle.id)"
+                color="primary"
+                icon="check"
+                large
+              >
+                START
+              </q-btn>
+            </q-card-actions>
+          </div>
+        </transition>
+        <q-inner-loading :showing="showLoading">
+          <q-spinner-cube size="xl" color="primary" />
+        </q-inner-loading>
       </q-card>
     </div>
     <div class="q-pa-md row items-start q-gutter-md justify-center">
@@ -38,7 +50,21 @@
 <script>
 import { mapGetters } from 'vuex'
 export default {
+  data () {
+    return {
+      showCard: false,
+      showLoading: false
+    }
+  },
   methods: {
+    cardLoading () {
+      this.showLoading = true
+      setTimeout(() => {
+        this.showLoading = false
+        this.showCard = false
+        this.showCard = true
+      }, 3000)
+    },
     async getRaffles () {
       await this.$store.dispatch('getRaffles')
     },
@@ -48,6 +74,7 @@ export default {
   },
   mounted () {
     this.getRaffles()
+    this.cardLoading()
   },
   computed: {
     ...mapGetters([
@@ -56,3 +83,9 @@ export default {
   }
 }
 </script>
+
+<style lang="sass" scoped>
+.card-raffle
+  width: 288px
+  height: 150px
+</style>

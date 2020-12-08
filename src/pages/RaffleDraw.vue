@@ -2,7 +2,7 @@
   <q-page class="flex flex-center" style="padding-top: 85px;">
     <div class="row">
       <div class="col-12 text-center q-pt-md">
-        <Categories :raffleName='this.raffleName' />
+        <Categories :raffleName='this.raffleName' :raffleID='this.raffleID' />
       </div>
     </div>
   </q-page>

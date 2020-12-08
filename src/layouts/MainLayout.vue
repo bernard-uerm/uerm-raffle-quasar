@@ -13,7 +13,9 @@
         :resize="true"
         color="#fff"
       />
-      <router-view />
+      <vue-page-transition name="overlay-down-full">
+        <router-view />
+      </vue-page-transition>
     </q-page-container>
   </q-layout>
 </template>
@@ -29,7 +31,7 @@ export default {
 </script>
 <style>
   body {
-    background-image: url('~assets/christmas-raffle.jpg');
+    background-image: url('~assets/christmas-raffle.jpg') !important;
     background-repeat: no-repeat;
     background-size: cover;
   }

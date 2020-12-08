@@ -18,7 +18,6 @@ const actions = {
         headers: { 'Content-Type': 'application/json' }
       }
     ).then((response) => response.json())
-
     if (categories.length > 0) {
       const categoryArr = []
       for (var result of categories) {

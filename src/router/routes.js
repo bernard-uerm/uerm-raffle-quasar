@@ -25,7 +25,7 @@ const routes = [
 
   {
     path: '/winners/:id',
-    component: () => import('layouts/SecondaryLayout.vue'),
+    component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: '', component: () => import('pages/Winners.vue') }
     ]

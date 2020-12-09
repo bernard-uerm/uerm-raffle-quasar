@@ -1,5 +1,5 @@
 <template>
-  <q-page class="flex flex-center" style="padding-top: 85px;">
+  <q-page class="flex flex-center" style="padding-top: 150px;">
     <div class="row">
       <div class="col-12">
         <div class="text-h1 text-primary text-weight-thin text-center">RAFFLE</div>

@@ -4,7 +4,8 @@
     class="canvasBox"
     :style="`
       height: ${canvasBoxHeight};
-      width: ${canvasBoxWidth};`">
+      width: ${canvasBoxWidth};
+      margin-top: 8%;`">
     <canvas id="canvas"></canvas>
   </div>
 </template>

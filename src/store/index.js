@@ -4,6 +4,7 @@ import Vuex from 'vuex'
 // import example from './module-example'
 import categories from './store-categories'
 import raffles from './store-raffles'
+import employees from './store-employees'
 
 Vue.use(Vuex)
 
@@ -20,7 +21,8 @@ export default function (/* { ssrContext } */) {
   const Store = new Vuex.Store({
     modules: {
       categories,
-      raffles
+      raffles,
+      employees
       // example
     },
 

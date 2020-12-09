@@ -22,6 +22,7 @@
                 @click="drawRaffle(raffle.id)"
                 color="primary"
                 icon="check"
+                push
                 large
               >
                 START
@@ -36,7 +37,7 @@
     </div>
     <div class="q-pa-md row items-start q-gutter-md justify-center">
       <div class="col-12 text-center q-pt-md">
-        <q-btn color="primary" push
+        <q-btn color="negative" push
           icon="logout" large
           :to="'/'"
         >

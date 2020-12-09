@@ -31,6 +31,14 @@ const routes = [
     ]
   },
 
+  {
+    path: '/admin',
+    component: () => import('layouts/AdminLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/Admin.vue') }
+    ]
+  },
+
   // Always leave this as last one,
   // but you can also remove it
   {

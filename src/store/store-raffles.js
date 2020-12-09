@@ -1,19 +1,37 @@
 const state = {
   apiUrl: process.env.API_URL,
   raffles: [],
-  winners: {}
+  winners: {},
+  raffleDetails: {},
+  finalWinners: {}
 }
 
 const mutations = {
+  setInit (state) {
+    state.raffleDetails = {}
+    console.log(state)
+  },
   setRaffles (state, raffles) {
     state.raffles = raffles
   },
   setCurrentWinners (state, winners) {
     state.winners = winners
+  },
+  setRaffleDetails (state, raffleDetails) {
+    state.raffleDetails = raffleDetails
+  },
+  setFinalWinners (state, finalWinners) {
+    state.finalWinners = finalWinners
   }
 }
 
 const actions = {
+  async setInit (state) {
+    state.commit('setInit')
+  },
+  async setRaffleDetails (state, raffleDetails) {
+    state.commit('setRaffleDetails', raffleDetails)
+  },
   async getRaffles (state) {
     const raffles = await fetch(
       `${this.state.raffles.apiUrl}raffles`,
@@ -65,6 +83,16 @@ const actions = {
       state.commit('setCurrentWinners', currentRaffleWinner)
       return currentRaffleWinner
     }
+  },
+  async getFinalWinners (state, raffleWinnersInfo) {
+    const finalWinners = await fetch(
+      `${this.state.raffles.apiUrl}getFinalWinners?raffleID=${raffleWinnersInfo.raffleID}&category=${raffleWinnersInfo.categoryID}`,
+      {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' }
+      }
+    ).then((response) => response.json())
+    state.commit('setFinalWinners', finalWinners)
   }
 }
 
@@ -74,6 +102,12 @@ const getters = {
   },
   currentWinners (state) {
     return state.winners
+  },
+  raffleDetails (state) {
+    return state.raffleDetails
+  },
+  finalWinners (state) {
+    return state.finalWinners
   }
 }
 

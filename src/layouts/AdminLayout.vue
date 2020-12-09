@@ -1,18 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-page-container>
-      <Snowf
-        :amount="50"
-        :size="5"
-        :speed="1.5"
-        :wind="0"
-        :opacity="0.8"
-        :swing="1"
-        :image="null"
-        :zIndex="null"
-        :resize="true"
-        color="#fff"
-      />
       <vue-page-transition name="overlay-down-full">
         <router-view />
       </vue-page-transition>
@@ -21,12 +9,8 @@
 </template>
 
 <script>
-import Snowf from 'vue-snowf'
 export default {
-  name: 'MainLayout',
-  components: {
-    Snowf
-  }
+  name: 'MainLayout'
 }
 </script>
 <style>

@@ -3,22 +3,33 @@
     <div class="container">
       <div class="row justify-center">
         <div class="col-12" style="margin-top: 25%">
-          <q-card class="card-border-primary bg-primary" style="height: 480px; overflow-y:auto; ">
+          <q-card class="card-border-primary bg-primary" style="height: 470px; overflow-y:auto; ">
             <q-card-section>
-              <div class="text-h3 text-weight-thin text-white text-center"> WINNERS </div>
+              <div class="row">
+                <div class="col-6 text-h3 text-weight-thin text-white text-left">WINNERS</div>
+                <div class="col-6 text-right">
+                  <q-btn color="negative" push
+                    icon="logout" large
+                    :to="'/raffles'"
+                  >
+                    <div class="q-pl-sm">BACK</div>
+                  </q-btn>
+                </div>
+              </div>
+
             </q-card-section>
             <Fireworks />
             <div id="main">
               <q-card-section id="scroller">
                   <table border="1" style="border-collapse: collapse;font-size:22PX;">
                     <tr
-                      v-for="raffle in this.winners"
-                      :key="raffle.ROWNUMBER"
+                      v-for="raffle in this.finalWinners"
+                      :key="raffle.employee_code"
                       v-bind="raffle">
-                      <td class="text-center">{{raffle.ROWNUMBER}}</td>
-                      <td class="text-center">{{raffle.NAME}}</td>
-                      <td class="text-center">COM-EDUCATIONAL MEASUREMENT & BOARD REVIEW COURSES</td>
-                      <td class="text-center">OIC-Parking Mgt. and Infectious Waste Disposal</td>
+                      <td class="text-center"></td>
+                      <td class="text-center">{{raffle.full_name}} </td>
+                      <td class="text-center">{{raffle.department}}</td>
+                      <td class="text-center">{{raffle.position}}</td>
                     </tr>
                   </table>
               </q-card-section>
@@ -26,20 +37,13 @@
           </q-card>
         </div>
       </div>
-      <div class="row justify-center q-pt-lg">
-        <q-btn color="primary" push
-          icon="logout" large
-          :to="'/raffles'"
-        >
-          <div class="q-pl-sm">BACK</div>
-        </q-btn>
-      </div>
     </div>
   </q-page>
 </template>
 
 <script>
 import Fireworks from 'components/Fireworks.vue'
+import { mapGetters } from 'vuex'
 import employees from 'components/employees.json'
 export default {
   components: {
@@ -50,8 +54,24 @@ export default {
       winners: employees
     }
   },
+  computed: {
+    ...mapGetters([
+      'raffleDetails',
+      'finalWinners'
+    ])
+  },
   created () {
+    this.getFinalWinners()
     console.log(this.$route.params.id)
+  },
+  methods: {
+    async getFinalWinners () {
+      const raffleWinnersInfo = {
+        raffleID: this.raffleDetails.raffleID,
+        categoryID: this.$route.params.id
+      }
+      await this.$store.dispatch('getFinalWinners', raffleWinnersInfo)
+    }
   }
 }
 </script>
@@ -60,7 +80,7 @@ export default {
 
 #main {
   width: 100%;
-  padding-top: 42%;
+  padding-top: 43%;
   margin: auto;
   font-size: 44px;
   font-size: calc(22px + (36 - 22) * ((100vw - 980px) / (1400 - 980)));

@@ -3,14 +3,11 @@ const state = {
   raffles: [],
   winners: {},
   raffleDetails: {},
-  finalWinners: {}
+  finalWinners: {},
+  winnersStatus: false
 }
 
 const mutations = {
-  setInit (state) {
-    state.raffleDetails = {}
-    console.log(state)
-  },
   setRaffles (state, raffles) {
     state.raffles = raffles
   },
@@ -22,13 +19,13 @@ const mutations = {
   },
   setFinalWinners (state, finalWinners) {
     state.finalWinners = finalWinners
+  },
+  setWinnersStatus (state, winnersStatus) {
+    state.winnersStatus = winnersStatus
   }
 }
 
 const actions = {
-  async setInit (state) {
-    state.commit('setInit')
-  },
   async setRaffleDetails (state, raffleDetails) {
     state.commit('setRaffleDetails', raffleDetails)
   },
@@ -81,6 +78,11 @@ const actions = {
     ).then((response) => response.json())
     if (Object.keys(currentRaffleWinner).length > 0) {
       state.commit('setCurrentWinners', currentRaffleWinner)
+      if (currentRaffleWinner.currentWinners > 0) {
+        state.commit('setWinnersStatus', true)
+      } else {
+        state.commit('setWinnersStatus', false)
+      }
       return currentRaffleWinner
     }
   },
@@ -108,6 +110,9 @@ const getters = {
   },
   finalWinners (state) {
     return state.finalWinners
+  },
+  winnersStatus (state) {
+    return state.winnersStatus
   }
 }
 

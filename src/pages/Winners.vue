@@ -16,20 +16,35 @@
                   </q-btn>
                 </div>
               </div>
+              <table class="winner-table" border="0" style="border-collapse: collapse;font-size:22px;color:white;">
+                <tr>
+                  <td class="text-center" width="10%">ID</td>
+                  <td class="text-center" width="20%">NAME</td>
+                  <td class="text-center" width="27%">DEPARTMENT</td>
+                  <td class="text-center" width="20%">POSITION</td>
+                  <td class="text-center" width="20%">PRICE</td>
+                </tr>
+              </table>
 
             </q-card-section>
             <Fireworks />
             <div id="main">
               <q-card-section id="scroller">
-                  <table border="1" style="border-collapse: collapse;font-size:22PX;">
+                  <table class="winner-table" border="0" style="border-collapse: collapse;font-size:22px;">
                     <tr
                       v-for="raffle in this.finalWinners"
                       :key="raffle.employee_code"
                       v-bind="raffle">
-                      <td class="text-center"></td>
-                      <td class="text-center">{{raffle.full_name}} </td>
-                      <td class="text-center">{{raffle.department}}</td>
-                      <td class="text-center">{{raffle.position}}</td>
+                      <!-- <td width="5%" class="text-center">{{raffle.employee_code}}</td>
+                      <td width="5%" class="text-center">{{raffle.full_name}} </td>
+                      <td width="5%"  class="text-center">{{raffle.department}}</td>
+                      <td width="5%" class="text-center">{{raffle.position}}</td>
+                      <td width="15%" class="text-center">{{raffle.raffle_price}}</td> -->
+                      <td class="text-center" width="11%">{{raffle.employee_code}}</td>
+                      <td class="text-center" width="20%">{{raffle.full_name}}</td>
+                      <td class="text-center" width="20%">{{raffle.department}}</td>
+                      <td class="text-center" width="20%">{{raffle.position}}</td>
+                      <td class="text-center" width="20%">{{raffle.raffle_price}}</td>
                     </tr>
                   </table>
               </q-card-section>
@@ -111,6 +126,18 @@ export default {
   animation: scroll 300s linear infinite
 }
 
+.winner-table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.winner-table th, td {
+  text-align: left;
+  padding: 8px;
+}
+
+.winner-table tr:nth-child(even) {background-color: #fff; color:#1976d2}
+
 @keyframes scroll {
   0% {
     opacity: 0;
@@ -131,5 +158,9 @@ export default {
     transform: translate3d(0, -100%, 0);
     opacity: 0;
   }
+}
+
+.text-center {
+  text-align: center !important;
 }
 </style>

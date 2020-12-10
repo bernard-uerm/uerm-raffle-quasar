@@ -27,9 +27,15 @@
               </table>
 
             </q-card-section>
-            <Fireworks />
+            <!-- <Fireworks /> -->
             <div id="main">
-              <q-card-section id="scroller">
+              <q-card-section id="scroller"
+                  :style="`top: 0;
+                        left: 0;
+                        right: 0;
+                        width: 900px;
+                        animation: scroll-data-v-0361dfd8 ${this.duration} linear infinite`"
+                >
                   <table class="winner-table" border="0" style="border-collapse: collapse;font-size:22px;">
                     <tr
                       v-for="raffle in this.finalWinners"
@@ -57,16 +63,17 @@
 </template>
 
 <script>
-import Fireworks from 'components/Fireworks.vue'
+// import Fireworks from 'components/Fireworks.vue'
 import { mapGetters } from 'vuex'
 import employees from 'components/employees.json'
 export default {
-  components: {
-    Fireworks
-  },
+  // components: {
+  //   Fireworks
+  // },
   data () {
     return {
-      winners: employees
+      winners: employees,
+      duration: '30s'
     }
   },
   computed: {
@@ -77,7 +84,6 @@ export default {
   },
   created () {
     this.getFinalWinners()
-    console.log(this.$route.params.id)
   },
   methods: {
     async getFinalWinners () {
@@ -86,6 +92,7 @@ export default {
         categoryID: this.$route.params.id
       }
       await this.$store.dispatch('getFinalWinners', raffleWinnersInfo)
+      this.duration = this.finalWinners.length + 10
     }
   }
 }
@@ -117,14 +124,13 @@ export default {
 }
 
 /* Scroller */
-#scroller {
+/* #scroller {
   top: 0;
   left: 0;
   right: 0;
   width: 900px;
-  /*animation: scroll 10s cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite*/
   animation: scroll 300s linear infinite
-}
+} */
 
 .winner-table {
   border-collapse: collapse;

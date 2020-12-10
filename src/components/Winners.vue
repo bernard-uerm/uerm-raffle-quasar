@@ -25,7 +25,13 @@
           <div v-show="showCard">
             <div v-if="showDrawCard">
               <div id="main">
-                <q-card-section id="scroller">
+                <q-card-section id="scroller"
+                  :style="`top: 0;
+                        left: 0;
+                        right: 0;
+                        width: 495px;
+                        animation: scroll-data-v-0361dfd8 ${this.duration} linear infinite`"
+                >
                     <table class="winner-table" border="0" style="border-collapse: collapse;font-size:14px;">
                       <tr
                         v-for="raffle in this.currentWinners.currentDetailedWinners"
@@ -63,7 +69,8 @@ export default {
       showCard: false,
       showLoading: false,
       drawLoading: false,
-      showDrawCard: true
+      showDrawCard: true,
+      duration: '30s'
     }
   },
   computed: {
@@ -81,6 +88,15 @@ export default {
         this.showCard = false
         this.showCard = true
       }, 3000)
+      // if (this.currentWinners.currentWinners < 25) {
+      //   this.duration = `{$this.}s`
+      // } else if (this.currentWinners.currentWinners >= 50) {
+      //   this.duration = '60s'
+      // } else {
+      //   this.duration = '120s'
+      // }
+      const dur = this.currentWinners.currentWinners + 10
+      this.duration = `${dur}s`
     },
     async setInit () {
       await this.$store.dispatch('setInit')
@@ -104,7 +120,6 @@ export default {
   },
   created () {
     this.cardLoading()
-    console.log(this.currentWinners, 'yeah')
   }
 }
 </script>
@@ -112,7 +127,7 @@ export default {
 <style lang="sass" scoped>
 .card-category
   width: 500px
-  height: 400px
+  height: 450px
 </style>
 
 <style scoped>
@@ -141,14 +156,13 @@ export default {
 }
 
 /* Scroller */
-#scroller {
+/* #scroller {
   top: 0;
   left: 0;
   right: 0;
   width: 495px;
-  /*animation: scroll 10s cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite*/
-  animation: scroll 150s linear infinite
-}
+  animation: scroll-data-v-0361dfd8 300s linear infinite
+} */
 
 .winner-table {
   border-collapse: collapse;

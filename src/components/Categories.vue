@@ -7,7 +7,9 @@
             {{raffleDetails.raffleName}}
           </div>
         </q-card-section>
+        <q-card-section></q-card-section>
         <q-form class="q-gutter-xs" ref="requestForm">
+          <div style="height:100%"></div>
           <transition
               appear
               enter-active-class="animated fadeIn"
@@ -191,5 +193,5 @@ export default {
 <style lang="sass" scoped>
 .card-category
   width: 500px
-  height: 400px
+  height: 450px
 </style>

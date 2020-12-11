@@ -5,7 +5,7 @@
         <Categories :raffleStatus='this.raffleStatus' />
       </div>
       <div class="col-6 text-center q-pt-md" v-if="winnersStatus">
-        <Winners :raffleStatus='this.raffleStatus' />
+        <Winners :raffleStatus='this.raffleStatus' :duration='this.duration' />
       </div>
     </div>
   </q-page>
@@ -24,7 +24,8 @@ export default {
     ...mapGetters([
       'raffleDetails',
       'currentWinners',
-      'winnersStatus'
+      'winnersStatus',
+      'duration'
     ])
   },
   data () {
@@ -46,7 +47,6 @@ export default {
   },
   methods: {
     async getSpecificRaffle () {
-      console.log(this.currentWinners, 'lol')
       const raffles = await this.$store.dispatch('getRaffles')
       if (raffles.length > 0) {
         // eslint-disable-next-line eqeqeq

@@ -98,7 +98,7 @@
 
           <q-inner-loading :showing="this.drawLoading" style="padding-top: -10px;">
             <q-spinner-pie size="180px" color="primary" />
-            <h3 class="text-weight-thin text-blue">LOADING WINNERS</h3>
+            <h4 class="text-weight-thin text-blue">LOADING WINNERS</h4>
           </q-inner-loading>
         </q-form>
       </q-card>
@@ -118,7 +118,8 @@ export default {
       showCard: false,
       showLoading: false,
       drawLoading: false,
-      showDrawCard: true
+      showDrawCard: true,
+      drumRoll: require('../assets/sounds/drum-roll.mp3')
     }
   },
   computed: {
@@ -153,6 +154,8 @@ export default {
       })
     },
     async draw () {
+      var drums = new Audio(this.drumRoll)
+      drums.play()
       this.$refs.requestForm.validate().then(async valid => {
         if (!valid) {
           this.formHasError = true
@@ -171,17 +174,28 @@ export default {
               }
               await this.$store.dispatch('setWinners', winnerInfo)
             }
+          }
+          setTimeout(() => {
             this.drawLoading = false
             this.showDrawCard = false
             this.showDrawCard = true
-          }
-          this.$router.push('/winners/' + this.drawCategories)
+            drums.pause()
+            this.$router.push('/winners/' + this.drawCategories)
+          }, 5000)
         }
       })
     },
     async getWinners () {
-      console.log(this.drawCategories)
-      this.$router.push('/winners/' + this.drawCategories)
+      var drums = new Audio(this.drumRoll)
+      drums.play()
+      this.drawLoading = true
+      setTimeout(() => {
+        this.drawLoading = false
+        this.showDrawCard = false
+        this.showDrawCard = true
+        drums.pause()
+        this.$router.push('/winners-list/' + this.raffleDetails.raffleID)
+      }, 5000)
     }
   },
   created () {

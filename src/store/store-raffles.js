@@ -4,7 +4,8 @@ const state = {
   winners: {},
   raffleDetails: {},
   finalWinners: {},
-  winnersStatus: false
+  winnersStatus: false,
+  duration: '30s'
 }
 
 const mutations = {
@@ -22,6 +23,9 @@ const mutations = {
   },
   setWinnersStatus (state, winnersStatus) {
     state.winnersStatus = winnersStatus
+  },
+  setDuration (state, duration) {
+    state.duration = duration
   }
 }
 
@@ -78,6 +82,11 @@ const actions = {
     ).then((response) => response.json())
     if (Object.keys(currentRaffleWinner).length > 0) {
       state.commit('setCurrentWinners', currentRaffleWinner)
+      state.commit('setDuration', `${currentRaffleWinner.currentWinners}s`)
+      var incremental = 1
+      for (var result of currentRaffleWinner.currentDetailedWinners) {
+        result.incrementalID = incremental++
+      }
       if (currentRaffleWinner.currentWinners > 0) {
         state.commit('setWinnersStatus', true)
       } else {
@@ -94,7 +103,14 @@ const actions = {
         headers: { 'Content-Type': 'application/json' }
       }
     ).then((response) => response.json())
-    state.commit('setFinalWinners', finalWinners)
+
+    if (finalWinners.length > 0) {
+      var incremental = 1
+      for (var result of finalWinners) {
+        result.incrementalID = incremental++
+      }
+      state.commit('setFinalWinners', finalWinners)
+    }
   }
 }
 
@@ -113,6 +129,9 @@ const getters = {
   },
   winnersStatus (state) {
     return state.winnersStatus
+  },
+  duration (state) {
+    return state.duration
   }
 }
 

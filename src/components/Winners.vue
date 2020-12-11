@@ -8,11 +8,12 @@
           </div>
         </q-card-section>
         <q-card-section>
-          <table class="winner-table" border="0" style="border-collapse: collapse;font-size:14px;width:103%;border:1px solid #1976d2;color:#1976d2">
+          <table class="winner-table" :border="this.tableBorder" style="border-collapse: collapse;font-size:14px;width:103%;border:1px solid #1976d2;color:#1976d2">
             <tr>
-              <td class="text-center" width="11%">ID</td>
-              <td class="text-center" width="27%">NAME</td>
-              <td class="text-center" width="39%">DEPARTMENT</td>
+              <td class="text-center" width="5%">#</td>
+              <td class="text-center" width="7%">ID</td>
+              <td class="text-center" width="18%">NAME</td>
+              <td class="text-center" width="26%">DEPARTMENT</td>
               <td class="text-center" width="20%">POSITION</td>
             </tr>
           </table>
@@ -32,11 +33,12 @@
                         width: 495px;
                         animation: scroll-data-v-0361dfd8 ${this.duration} linear infinite`"
                 >
-                    <table class="winner-table" border="0" style="border-collapse: collapse;font-size:14px;">
+                    <table class="winner-table" :border="this.tableBorder" style="width:534px !important; border-collapse: collapse;font-size:14px; border: 1px solid #1976d2">
                       <tr
                         v-for="raffle in this.currentWinners.currentDetailedWinners"
                         :key="raffle.employee_code"
                         v-bind="raffle">
+                        <td class="text-center" width="11%">{{raffle.incrementalID}}</td>
                         <td class="text-center" width="11%">{{raffle.employee_code}}</td>
                         <td class="text-center" width="20%">{{raffle.full_name}}</td>
                         <td class="text-center" width="20%">{{raffle.department}}</td>
@@ -60,7 +62,7 @@
 <script>
 import { mapGetters } from 'vuex'
 export default {
-  props: ['raffleStatus'],
+  props: ['raffleStatus', 'duration'],
   data () {
     return {
       drawCategories: null,
@@ -70,7 +72,7 @@ export default {
       showLoading: false,
       drawLoading: false,
       showDrawCard: true,
-      duration: '30s'
+      tableBorder: 0
     }
   },
   computed: {
@@ -87,20 +89,8 @@ export default {
         this.showLoading = false
         this.showCard = false
         this.showCard = true
+        this.setInit()
       }, 3000)
-      // if (this.currentWinners.currentWinners < 25) {
-      //   this.duration = `{$this.}s`
-      // } else if (this.currentWinners.currentWinners >= 50) {
-      //   this.duration = '60s'
-      // } else {
-      //   this.duration = '120s'
-      // }
-      const dur = this.currentWinners.currentWinners + 10
-      this.duration = `${dur}s`
-    },
-    async setInit () {
-      await this.$store.dispatch('setInit')
-      this.$router.push('/raffles')
     },
     filterCategories (val, update) {
       if (val === '') {
@@ -126,7 +116,7 @@ export default {
 
 <style lang="sass" scoped>
 .card-category
-  width: 500px
+  width: 575px
   height: 450px
 </style>
 
@@ -175,7 +165,7 @@ export default {
   padding: 8px;
 }
 
-.winner-table tr:nth-child(even) {background-color: #1976d2; color:#fff}
+.winner-table tr:nth-child(even) {background-color: #26A69A; color:#fff}
 
 @keyframes scroll {
   0% {

@@ -39,7 +39,7 @@
                 >
                   <table class="winner-table" :border="this.tableBorder" style="border-collapse: collapse;font-size:22px;">
                     <tr
-                      v-for="raffle in this.finalWinners"
+                      v-for="raffle in this.currentWinners.currentDetailedWinners"
                       :key="raffle.employee_code"
                       v-bind="raffle">
                       <td class="text-center" width="11%">{{raffle.incrementalID}}</td>
@@ -78,22 +78,18 @@ export default {
   computed: {
     ...mapGetters([
       'raffleDetails',
-      'finalWinners'
+      'currentWinners'
     ])
   },
   created () {
     var tadaAudio = new Audio(this.tada)
     tadaAudio.play()
     this.getFinalWinners()
+    this.duration = this.currentWinners.currentDetailedWinners.length + 30 + 's'
   },
   methods: {
     async getFinalWinners () {
-      const raffleWinnersInfo = {
-        raffleID: this.raffleDetails.raffleID,
-        categoryID: this.$route.params.id
-      }
-      await this.$store.dispatch('getFinalWinners', raffleWinnersInfo)
-      this.duration = this.finalWinners.length + 30 + 's'
+      await this.$store.dispatch('getCurrentWinners', this.$route.params.id)
     }
   }
 }

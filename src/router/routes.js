@@ -32,6 +32,14 @@ const routes = [
   },
 
   {
+    path: '/winners-list/:id',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/WinnersList.vue') }
+    ]
+  },
+
+  {
     path: '/admin',
     component: () => import('layouts/AdminLayout.vue'),
     children: [

@@ -5,7 +5,8 @@ const state = {
   raffleDetails: {},
   finalWinners: {},
   winnersStatus: false,
-  duration: '30s'
+  duration: '30s',
+  allWinners: null
 }
 
 const mutations = {
@@ -26,6 +27,10 @@ const mutations = {
   },
   setDuration (state, duration) {
     state.duration = duration
+  },
+  setAllWinners (state, winners) {
+    console.log(winners)
+    state.allWinners = winners
   }
 }
 
@@ -111,6 +116,24 @@ const actions = {
       }
       state.commit('setFinalWinners', finalWinners)
     }
+  },
+  async getAllWinners (state) {
+    const allWinners = await fetch(
+      `${this.state.raffles.apiUrl}getAllWinners`,
+      {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' }
+      }
+    ).then((response) => response.json())
+
+    if (allWinners.length > 0) {
+      var incremental = 1
+      for (var result of allWinners) {
+        result.incrementalID = incremental++
+      }
+
+      state.commit('setAllWinners', allWinners)
+    }
   }
 }
 
@@ -132,6 +155,9 @@ const getters = {
   },
   duration (state) {
     return state.duration
+  },
+  setAllWinners (state) {
+    return state.allWinners
   }
 }
 

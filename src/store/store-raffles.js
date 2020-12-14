@@ -3,10 +3,10 @@ const state = {
   raffles: [],
   winners: {},
   raffleDetails: {},
-  finalWinners: {},
+  finalWinners: [],
   winnersStatus: false,
   duration: '30s',
-  allWinners: null
+  allWinners: []
 }
 
 const mutations = {
@@ -29,7 +29,7 @@ const mutations = {
     state.duration = duration
   },
   setAllWinners (state, winners) {
-    console.log(winners)
+    console.log(winners, 'herererererehewinners')
     state.allWinners = winners
   }
 }
@@ -131,9 +131,21 @@ const actions = {
       for (var result of allWinners) {
         result.incrementalID = incremental++
       }
-
+      state.commit('setAllWinners', allWinners)
+    } else {
       state.commit('setAllWinners', allWinners)
     }
+  },
+  async clearWinners (state) {
+    const clearWinners = await fetch(
+      `${this.state.raffles.apiUrl}clearWinners`,
+      {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' }
+      }
+    ).then((response) => response.json())
+
+    return clearWinners
   }
 }
 

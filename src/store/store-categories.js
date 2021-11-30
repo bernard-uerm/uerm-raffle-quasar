@@ -12,7 +12,7 @@ const mutations = {
 const actions = {
   async getCategories (state) {
     const categories = await fetch(
-      `${this.state.categories.apiUrl}categories`,
+      `${this.state.categories.apiUrl}raffle-categories`,
       {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' }

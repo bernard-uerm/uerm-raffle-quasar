@@ -5,7 +5,7 @@
         <Categories :raffleStatus='this.raffleStatus' />
       </div>
       <div class="col-6 text-center q-pt-md" v-if="winnersStatus">
-        <Winners :raffleStatus='this.raffleStatus' :duration='this.duration' />
+        <Winners :raffleStatus='this.raffleStatus' />
       </div>
     </div>
   </q-page>
@@ -33,13 +33,13 @@ export default {
       raffleInfo: {
         raffleID: null,
         raffleName: null,
-        rafflePrice: null
+        rafflePrize: null,
+        raffleExpectedWinners: null
       },
       raffleStatus: true
     }
   },
   created () {
-    console.log(this.winnersStatus)
     this.getSpecificRaffle()
     this.raffleInfo.raffleID = this.$route.params.id
     this.getCategories()
@@ -52,7 +52,8 @@ export default {
         // eslint-disable-next-line eqeqeq
         const result = raffles.filter(item => item.id == this.raffleInfo.raffleID)
         this.raffleInfo.raffleName = result[0].name
-        this.raffleInfo.rafflePrice = result[0].price
+        this.raffleInfo.rafflePrize = result[0].prize
+        this.raffleInfo.raffleExpectedWinners = result[0].expected_winners
         await this.$store.dispatch('setRaffleDetails', this.raffleInfo)
       }
     },
@@ -61,9 +62,16 @@ export default {
     },
     async getCurrentWinners () {
       await this.$store.dispatch('getCurrentWinners', this.raffleInfo.raffleID)
-      if (this.currentWinners.status === 'Complete') {
+      if (this.currentWinners.length >= this.raffleDetails.raffleExpectedWinners) {
         this.raffleStatus = false
+        await this.$store.dispatch('setRaffleStatus', true)
+      } else {
+        this.raffleStatus = true
+        await this.$store.dispatch('setRaffleDetails', false)
       }
+      // if (this.currentWinners.status === 'Complete') {
+      //   this.raffleStatus = false
+      // }
     }
   }
 }

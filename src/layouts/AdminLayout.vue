@@ -1,7 +1,7 @@
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-page-container>
-      <vue-page-transition name="overlay-down-full">
+      <vue-page-transition name="overlay-down-full" class="bg-yellow">
         <router-view />
       </vue-page-transition>
     </q-page-container>

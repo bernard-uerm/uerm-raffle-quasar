@@ -1,23 +1,23 @@
 <template>
-  <div>
+  <div class="q-mt-xl">
     <form>
-      <q-card class="card-category text-white card-border-primary" style="overflow-y:auto;">
+      <q-card class="card-category text-white card-border-primary" style="overflow-y:auto;height:532px;">
         <q-card-section>
-          <div class="text-h3 text-weight-thin text-primary">
-            Winners of {{raffleDetails.rafflePrice}}
+          <div class="text-h3 text-weight-thin text-red-6">
+            WINNERS OF {{raffleDetails.rafflePrize}}
           </div>
         </q-card-section>
-        <q-card-section>
-          <table class="winner-table" :border="this.tableBorder" style="border-collapse: collapse;font-size:14px;width:103%;border:1px solid #1976d2;color:#1976d2">
+        <!-- <q-card-section>
+          <table class="winner-table" :border="this.tableBorder" style="border-collapse: collapse;font-size:14px;width:100%;border:1px solid #f44336;color:#f44336">
             <tr>
-              <td class="text-center" width="5%">#</td>
-              <td class="text-center" width="7%">ID</td>
-              <td class="text-center" width="18%">NAME</td>
-              <td class="text-center" width="26%">DEPARTMENT</td>
+              <td class="text-center" width="11%">#</td>
+              <td class="text-center" width="11%">ID</td>
+              <td class="text-center" width="20%">NAME</td>
+              <td class="text-center" width="20%">DEPARTMENT</td>
               <td class="text-center" width="20%">POSITION</td>
             </tr>
           </table>
-        </q-card-section>
+        </q-card-section> -->
         <transition
             appear
             enter-active-class="animated fadeIn"
@@ -27,20 +27,16 @@
             <div v-if="showDrawCard">
               <div id="main">
                 <q-card-section id="scroller"
-                  :style="`top: 0;
-                        left: 0;
-                        right: 0;
-                        width: 495px;
-                        animation: scroll-data-v-0361dfd8 ${this.duration} linear infinite`"
+                  :style="`animation-duration: ${this.overallDuration};`"
                 >
-                    <table class="winner-table" :border="this.tableBorder" style="width:534px !important; border-collapse: collapse;font-size:14px; border: 1px solid #1976d2">
+                    <table class="winner-table" :border="this.tableBorder" style="border-collapse: collapse;font-size:14px;width:100%;border:1px solid #f44336;color:#f44336">
                       <tr
-                        v-for="raffle in this.currentWinners.currentDetailedWinners"
-                        :key="raffle.employee_code"
+                        v-for="raffle in this.currentWinners"
+                        :key="raffle.entry_id"
                         v-bind="raffle">
                         <td class="text-center" width="11%">{{raffle.incrementalID}}</td>
-                        <td class="text-center" width="11%">{{raffle.employee_code}}</td>
-                        <td class="text-center" width="20%">{{raffle.full_name}}</td>
+                        <td class="text-center" width="11%">{{raffle.entry_id}}</td>
+                        <td class="text-center" width="20%">{{raffle.fullname}}</td>
                         <td class="text-center" width="20%">{{raffle.department}}</td>
                         <td class="text-center" width="20%">{{raffle.position}}</td>
                       </tr>
@@ -51,8 +47,8 @@
           </div>
         </transition>
         <q-inner-loading :showing="showLoading" style="padding-top: 60px !important;">
-          <q-spinner-pie size="180px" color="primary" />
-          <h3 class="text-weight-thin text-blue">LOADING WINNERS</h3>
+          <q-spinner-pie size="180px" color="red-6" />
+          <h3 class="text-weight-thin text-red-6">LOADING WINNERS</h3>
         </q-inner-loading>
       </q-card>
     </form>
@@ -62,7 +58,7 @@
 <script>
 import { mapGetters } from 'vuex'
 export default {
-  props: ['raffleStatus', 'duration'],
+  props: ['raffleStatus'],
   data () {
     return {
       drawCategories: null,
@@ -72,24 +68,36 @@ export default {
       showLoading: false,
       drawLoading: false,
       showDrawCard: true,
-      tableBorder: 0
+      tableBorder: 0,
+      overallDuration: null,
+      bgColor: 'blue'
     }
   },
   computed: {
     ...mapGetters([
       'categories',
       'currentWinners',
-      'raffleDetails'
+      'raffleDetails',
+      'duration'
     ])
   },
   methods: {
     cardLoading () {
       this.showLoading = true
+      var addedDuration = null
+      if (Number(this.duration < 15)) {
+        addedDuration = 10
+      } else if (Number(this.duration >= 20) && Number(this.duration <= 30)) {
+        addedDuration = 15
+      } else {
+        addedDuration = 50
+      }
+      this.overallDuration = this.duration + addedDuration + 's'
       setTimeout(() => {
         this.showLoading = false
         this.showCard = false
         this.showCard = true
-        this.setInit()
+        // this.setInit()
       }, 3000)
     },
     filterCategories (val, update) {
@@ -110,6 +118,7 @@ export default {
   },
   created () {
     this.cardLoading()
+    console.log(this.currentWinners)
   }
 }
 </script>
@@ -118,6 +127,7 @@ export default {
 .card-category
   width: 575px
   height: 450px
+
 </style>
 
 <style scoped>
@@ -145,28 +155,6 @@ export default {
   }
 }
 
-/* Scroller */
-/* #scroller {
-  top: 0;
-  left: 0;
-  right: 0;
-  width: 495px;
-  animation: scroll-data-v-0361dfd8 300s linear infinite
-} */
-
-.winner-table {
-  border-collapse: collapse;
-  width: 100%;
-  color: #000;
-}
-
-.winner-table th, td {
-  text-align: left;
-  padding: 8px;
-}
-
-.winner-table tr:nth-child(even) {background-color: #26A69A; color:#fff}
-
 @keyframes scroll {
   0% {
     opacity: 0;
@@ -188,6 +176,31 @@ export default {
     opacity: 0;
   }
 }
+
+/* Scroller */
+#scroller {
+  top: 0;
+  left: 0;
+  right: 0;
+  animation-name: scroll;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite
+
+  /* animation: scroll 300s linear infinite */
+}
+
+.winner-table {
+  border-collapse: collapse;
+  width: 100%;
+  color: #000;
+}
+
+.winner-table th, td {
+  text-align: left;
+  padding: 8px;
+}
+
+.winner-table tr:nth-child(even) {background-color: #f44336; color:#fff}
 
 .text-center {
   text-align: center !important;

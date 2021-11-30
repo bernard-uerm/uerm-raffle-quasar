@@ -1,14 +1,30 @@
 <template>
   <q-page class="flex flex-center" style="padding-top: 150px;">
     <div class="row">
-      <div class="col-12">
-        <div class="text-h1 text-primary text-weight-thin text-center">RAFFLE</div>
-      </div>
-      <div class="col-12 text-center q-pt-md">
-        <div class="col-12">
-          <Raffles />
-        </div>
-      </div>
+      <q-card>
+        <q-card-section class="bg-red-6">
+          <div class="col-12">
+            <div class="text-h3 text-white text-weight-thin text-center">RAFFLE</div>
+          </div>
+        </q-card-section>
+        <q-card-section class="bg-yellow-6">
+          <div class="col-12 text-center q-pt-md">
+            <div class="col-12">
+              <Raffles />
+            </div>
+          </div>
+        </q-card-section>
+        <q-card-actions
+          align="center"
+          class="bg-red-6 cursor-pointer"
+          v-ripple
+          @click="goBack"
+        >
+            <div class="col-12">
+              <div class="text-h3 text-white text-weight-thin text-center">GO BACK</div>
+            </div>
+          </q-card-actions>
+      </q-card>
     </div>
   </q-page>
 </template>
@@ -19,6 +35,11 @@ export default {
   name: 'Raffle',
   components: {
     Raffles
+  },
+  methods: {
+    goBack () {
+      this.$router.push('/')
+    }
   }
 }
 </script>

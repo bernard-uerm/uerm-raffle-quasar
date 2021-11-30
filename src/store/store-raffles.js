@@ -5,8 +5,9 @@ const state = {
   raffleDetails: {},
   finalWinners: [],
   winnersStatus: false,
-  duration: '30s',
-  allWinners: []
+  duration: 30,
+  allWinners: [],
+  raffleStatus: false
 }
 
 const mutations = {
@@ -29,12 +30,17 @@ const mutations = {
     state.duration = duration
   },
   setAllWinners (state, winners) {
-    console.log(winners, 'herererererehewinners')
     state.allWinners = winners
+  },
+  setRaffleStatus (state, raffleStatus) {
+    state.raffleStatus = raffleStatus
   }
 }
 
 const actions = {
+  setRaffleStatus (state, status) {
+    state.commit('setRaffleStatus', status)
+  },
   async setRaffleDetails (state, raffleDetails) {
     state.commit('setRaffleDetails', raffleDetails)
   },
@@ -46,7 +52,7 @@ const actions = {
         headers: { 'Content-Type': 'application/json' }
       }
     ).then((response) => response.json())
-
+    console.log(raffles)
     if (raffles.length > 0) {
       state.commit('setRaffles', raffles)
       return raffles
@@ -79,36 +85,40 @@ const actions = {
 
   async getCurrentWinners (state, raffleID) {
     const currentRaffleWinner = await fetch(
-      `${this.state.raffles.apiUrl}getCurrentWinners?raffleID=${raffleID}`,
+      `${this.state.raffles.apiUrl}raffle-get-winners?raffleID=${raffleID}`,
       {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' }
       }
     ).then((response) => response.json())
+    console.log(currentRaffleWinner)
     if (Object.keys(currentRaffleWinner).length > 0) {
       state.commit('setCurrentWinners', currentRaffleWinner)
-      state.commit('setDuration', `${currentRaffleWinner.currentWinners}s`)
+      state.commit('setDuration', currentRaffleWinner.length)
       var incremental = 1
-      for (var result of currentRaffleWinner.currentDetailedWinners) {
+      for (var result of currentRaffleWinner) {
         result.incrementalID = incremental++
       }
-      if (currentRaffleWinner.currentWinners > 0) {
+      if (currentRaffleWinner.length > 0) {
         state.commit('setWinnersStatus', true)
       } else {
         state.commit('setWinnersStatus', false)
       }
       return currentRaffleWinner
+    } else {
+      state.commit('setCurrentWinners', [])
+      state.commit('setWinnersStatus', false)
     }
   },
-  async getFinalWinners (state, raffleWinnersInfo) {
+  async getWinnerPerCategory (state, raffleWinnersInfo) {
     const finalWinners = await fetch(
-      `${this.state.raffles.apiUrl}getFinalWinners?raffleID=${raffleWinnersInfo.raffleID}&category=${raffleWinnersInfo.categoryID}`,
+      `${this.state.raffles.apiUrl}raffle-get-winners?raffleID=${raffleWinnersInfo.raffleID}&category=${raffleWinnersInfo.categoryID}`,
       {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' }
       }
     ).then((response) => response.json())
-
+    console.log(finalWinners)
     if (finalWinners.length > 0) {
       var incremental = 1
       for (var result of finalWinners) {
@@ -119,13 +129,13 @@ const actions = {
   },
   async getAllWinners (state) {
     const allWinners = await fetch(
-      `${this.state.raffles.apiUrl}getAllWinners`,
+      `${this.state.raffles.apiUrl}raffle-get-winners`,
       {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' }
       }
     ).then((response) => response.json())
-
+    console.log(allWinners)
     if (allWinners.length > 0) {
       var incremental = 1
       for (var result of allWinners) {
@@ -138,7 +148,7 @@ const actions = {
   },
   async clearWinners (state) {
     const clearWinners = await fetch(
-      `${this.state.raffles.apiUrl}clearWinners`,
+      `${this.state.raffles.apiUrl}raffle-clear-winners`,
       {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' }
@@ -170,6 +180,9 @@ const getters = {
   },
   setAllWinners (state) {
     return state.allWinners
+  },
+  raffleStatus (state) {
+    return state.raffleStatus
   }
 }
 

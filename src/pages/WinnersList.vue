@@ -3,7 +3,7 @@
     <div class="container">
       <div class="row justify-center">
         <div class="col-12" style="margin-top: 25%">
-          <q-card class="card-border-primary bg-primary" style="height: 470px; overflow-y:auto; ">
+          <q-card class="card-border-primary bg-red-6" style="height: 600px; overflow-y:auto;width:1200px;">
             <q-card-section>
               <div class="row">
                 <div class="col-6 text-h3 text-weight-thin text-white text-left blink">CONGRATULATIONS</div>
@@ -23,7 +23,7 @@
                   <td class="text-center" width="20%">NAME</td>
                   <td class="text-center" width="29%">DEPARTMENT</td>
                   <td class="text-center" width="18%">POSITION</td>
-                  <td class="text-center" width="20%">PRICE</td>
+                  <td class="text-center" width="20%">PRIZE</td>
                 </tr>
               </table>
 
@@ -31,25 +31,19 @@
             <Fireworks />
             <div id="main">
               <q-card-section id="scroller"
-                  :style="`top: 0;
-                        left: 0;
-                        right: 0;
-                        width: 900px;
-                        animation: scroll-data-v-0361dfd8 ${this.duration} linear infinite`"
-                >
-                  <table class="winner-table" :border="this.tableBorder" style="border-collapse: collapse;font-size:22px;">
-                    <tr
-                      v-for="raffle in this.currentWinners.currentDetailedWinners"
-                      :key="raffle.employee_code"
-                      v-bind="raffle">
-                      <td class="text-center" width="11%">{{raffle.incrementalID}}</td>
-                      <td class="text-center" width="11%">{{raffle.employee_code}}</td>
-                      <td class="text-center" width="20%">{{raffle.full_name}}</td>
-                      <td class="text-center" width="20%">{{raffle.department}}</td>
-                      <td class="text-center" width="20%">{{raffle.position}}</td>
-                      <td class="text-center" width="20%">{{raffle.raffle_price}}</td>
-                    </tr>
-                  </table>
+                :style="`animation-duration: ${this.overallDuration};`"
+              >
+                <table class="winner-table" :border="this.tableBorder" style="border-collapse: collapse;font-size:22px;">
+                  <tr
+                    v-for="raffle in this.overallWinners" :key="raffle.entry_id" v-bind="raffle">
+                    <td class="text-center" width="8%">{{raffle.incrementalID}}</td>
+                    <td class="text-center" width="10%">{{raffle.entry_id}}</td>
+                    <td class="text-center" width="20%">{{raffle.fullname}}</td>
+                    <td class="text-center" width="29%">{{raffle.department}}</td>
+                    <td class="text-center" width="18%">{{raffle.position}}</td>
+                    <td class="text-center" width="20%">{{raffle.prize}}</td>
+                  </tr>
+                </table>
               </q-card-section>
             </div>
           </q-card>
@@ -70,26 +64,57 @@ export default {
   data () {
     return {
       winners: employees,
-      duration: null,
+      overallDuration: null,
       tableBorder: 0,
-      tada: require('../assets/sounds/tada.mp3')
+      tada: require('../assets/sounds/tada.mp3'),
+      overallWinners: []
     }
   },
   computed: {
     ...mapGetters([
       'raffleDetails',
-      'currentWinners'
+      'currentWinners',
+      'raffleWinnersByCategory',
+      'duration',
+      'durationPerCategory',
+      'raffleStatus'
     ])
   },
   created () {
     var tadaAudio = new Audio(this.tada)
     tadaAudio.play()
     this.getFinalWinners()
-    this.duration = this.currentWinners.currentDetailedWinners.length + 30 + 's'
   },
   methods: {
     async getFinalWinners () {
       await this.$store.dispatch('getCurrentWinners', this.$route.params.id)
+      var uncomputeDuration = 0
+      var addedDuration = null
+      if (this.durationPerCategory > 0) {
+        uncomputeDuration = this.durationPerCategory
+        if (Number(this.durationPerCategory < 15)) {
+          addedDuration = 12
+        } else if (Number(this.durationPerCategory >= 20) && Number(this.durationPerCategory <= 30)) {
+          addedDuration = 15
+        } else {
+          addedDuration = 50
+        }
+      } else {
+        uncomputeDuration = this.duration
+        if (Number(this.duration < 15)) {
+          addedDuration = 10
+        } else if (Number(this.duration >= 20) && Number(this.duration <= 30)) {
+          addedDuration = 15
+        } else {
+          addedDuration = 50
+        }
+      }
+      this.overallDuration = uncomputeDuration + addedDuration + 's'
+      if (this.raffleStatus) {
+        this.overallWinners = this.currentWinners
+      } else {
+        this.overallWinners = this.raffleWinnersByCategory
+      }
     }
   }
 }
@@ -121,13 +146,14 @@ export default {
 }
 
 /* Scroller */
-/* #scroller {
+#scroller {
   top: 0;
   left: 0;
   right: 0;
-  width: 900px;
-  animation: scroll 300s linear infinite
-} */
+  animation-name: scroll;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite
+}
 
 .winner-table {
   border-collapse: collapse;
@@ -139,7 +165,7 @@ export default {
   padding: 8px;
 }
 
-.winner-table tr:nth-child(even) {background-color: #fff; color:#1976d2}
+.winner-table tr:nth-child(even) {background-color: #fff; color:#f44336}
 
 @keyframes scroll {
   0% {

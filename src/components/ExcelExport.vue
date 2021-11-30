@@ -56,18 +56,18 @@ export default {
       loading: false,
       columns: [
         {
-          name: 'employee_code',
+          name: 'entry_id',
           required: true,
           label: 'Employee ID',
           align: 'left',
-          field: row => row.employee_code,
+          field: row => row.entry_id,
           sortable: true
         },
-        { name: 'full_name', align: 'center', label: 'Full Name', field: 'full_name' },
+        { name: 'fullname', align: 'center', label: 'Full Name', field: 'fullname' },
         { name: 'department', label: 'Department', field: 'department' },
         { name: 'position', label: 'Position', field: 'position' },
         { name: 'category', label: 'Category', field: 'category' },
-        { name: 'raffle_price', label: 'Prize', field: 'raffle_price' }
+        { name: 'raffle_price', label: 'Prize', field: 'prize' }
       ]
     }
   },

@@ -47,7 +47,9 @@ module.exports = function (/* ctx */) {
       vueRouterMode: 'hash', // available values: 'hash', 'history'
       env: {
         // API_URL: 'http://10.107.0.10:3000/',
-        API_URL: 'http://api.uerm.com/'
+        API_URL: 'https://apps.uerm.edu.ph:3443/it/',
+        // API_URL: 'http://localhost:3000/it/',
+        API_KEY: 'So1DSBKffnbTKwdgIIcetg2z3GyNKeQi'
       },
       // transpile: false,
 

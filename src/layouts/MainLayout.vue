@@ -38,7 +38,10 @@ export default {
   .card-border-primary {
     border-style: solid;
     border-color: rgba(0,0,0,0.12);
-    border-left-color: #1976d2 !important;
-    border-right-color: #1976d2 !important;
+    border-left-color: #f44336 !important;
+    border-right-color: #f44336 !important;
+  }
+  .overlay-left,  .overlay-right,  .overlay-top,  .overlay-bottom   {
+    background: #f44336 !important;
   }
 </style>

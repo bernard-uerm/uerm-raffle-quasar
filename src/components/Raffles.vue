@@ -15,35 +15,25 @@
           >
           <div v-show="showCard">
             <q-card-section>
-              <div class="text-h6 text-weight-thin text-primary">{{raffle.name}}</div>
+              <div class="text-h6 text-weight-thin text-red-6 text-uppercase">{{raffle.name}}</div>
             </q-card-section>
             <q-card-actions class="row items-start q-gutter-md justify-center">
               <q-btn
                 @click="drawRaffle(raffle.id)"
-                color="primary"
+                color="red-6"
                 icon="check"
                 push
-                large
+                size="lg"
+                label="START"
               >
-                START
               </q-btn>
             </q-card-actions>
           </div>
         </transition>
         <q-inner-loading :showing="showLoading">
-          <q-spinner-cube size="xl" color="primary" />
+          <q-spinner-cube size="xl" color="red-6" />
         </q-inner-loading>
       </q-card>
-    </div>
-    <div class="q-pa-md row items-start q-gutter-md justify-center">
-      <div class="col-12 text-center q-pt-md">
-        <q-btn color="negative" push
-          icon="logout" large
-          :to="'/'"
-        >
-          <div class="q-pl-sm">BACK</div>
-        </q-btn>
-      </div>
     </div>
   </div>
 </template>

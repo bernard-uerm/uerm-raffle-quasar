@@ -35,10 +35,14 @@ import XLSX from 'xlsx'
 import { mapGetters } from 'vuex'
 import ExcelExport from 'src/components/ExcelExport.vue'
 export default {
+  name: 'AdminConfiguration',
   components: { ExcelExport },
   data () {
     return {
-      excelData: []
+      excelData: [],
+      excelFormat: null,
+      excelFormatParsed: null,
+      employeeList: []
     }
   },
   computed: {
@@ -49,22 +53,50 @@ export default {
       'duration'
     ])
   },
+  watch: {
+    excelFormatParsed (val) {
+      // var sentLinks = []
+      // var unsentLinks = []
+      // console.log(sentLinks)
+      this.employeeList = val
+    }
+  },
   methods: {
-    excelExport (event) {
+    // excelExport (event) {
+    //   var input = event.target
+    //   var reader = new FileReader()
+    //   reader.onload = () => {
+    //     var fileData = reader.result
+    //     var wb = XLSX.read(fileData, { type: 'binary' })
+    //     wb.SheetNames.forEach((sheetName) => {
+    //       var rowObj = XLSX.utils.sheet_to_json(wb.Sheets.Sheet1)
+    //       this.excelData = rowObj
+    //     })
+    //   }
+    //   reader.readAsBinaryString(input.files[0])
+    // },
+    excelExport (val) {
+      this.excelFormatParsed = null
+      this.excelEmailMessage = []
       var input = event.target
       var reader = new FileReader()
+      reader.readAsBinaryString(input.files[0])
       reader.onload = () => {
         var fileData = reader.result
         var wb = XLSX.read(fileData, { type: 'binary' })
         wb.SheetNames.forEach((sheetName) => {
-          var rowObj = XLSX.utils.sheet_to_json(wb.Sheets[sheetName])
-          this.excelData = rowObj
+          var rowObj = XLSX.utils.sheet_to_json(wb.Sheets.Sheet1)
+          this.excelFormatParsed = rowObj
         })
       }
-      reader.readAsBinaryString(input.files[0])
+      setTimeout(() => {
+        this.excelEmailFormat = []
+        this.excelEmailFormatLoading = false
+        this.showParsedEmailData = true
+      }, 3000)
     },
     async saveEmployees () {
-      await this.$store.dispatch('saveEmployees', this.excelData)
+      await this.$store.dispatch('saveEmployees', this.employeeList)
     }
   }
 }

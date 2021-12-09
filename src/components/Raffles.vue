@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="q-pa-md row items-start q-gutter-md justify-center">
+    <div class="row items-start q-gutter-sm justify-center">
       <q-card
         class="card-raffle text-white card-border-primary relative-position"
         v-for="raffle in raffles"
@@ -21,9 +21,9 @@
               <q-btn
                 @click="drawRaffle(raffle.id)"
                 color="red-6"
-                icon="check"
+                icon="fa fa-star-of-life"
                 push
-                size="lg"
+                size="md"
                 label="START"
               >
               </q-btn>

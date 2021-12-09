@@ -1,10 +1,10 @@
 <template>
-  <q-page class="flex flex-center" style="padding-top: 150px;">
-    <div class="row">
+  <q-page class="flex flex-center" style="padding-top: 200px;">
+    <div class="row q-pa-md">
       <q-card>
         <q-card-section class="bg-red-6">
           <div class="col-12">
-            <div class="text-h3 text-white text-weight-thin text-center">RAFFLE</div>
+            <div class="text-h4 text-white text-weight-thin text-center">RAFFLE</div>
           </div>
         </q-card-section>
         <q-card-section class="bg-yellow-6">
@@ -21,7 +21,7 @@
           @click="goBack"
         >
             <div class="col-12">
-              <div class="text-h3 text-white text-weight-thin text-center">GO BACK</div>
+              <div class="text-h5 text-white text-weight-thin text-center">GO BACK</div>
             </div>
           </q-card-actions>
       </q-card>

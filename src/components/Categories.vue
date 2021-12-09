@@ -1,8 +1,8 @@
 <template>
   <div class="q-mt-xl">
-    <q-card class="card-category text-white">
+    <q-card class="card-category text-white" style="height:400px;">
       <q-card-section class="bg-red-6">
-        <div class="text-h3 text-weight-thin text-uppercase text-white">
+        <div class="text-h4 text-weight-thin text-uppercase text-white">
           {{raffleDetails.raffleName}}
         </div>
       </q-card-section>
@@ -54,17 +54,17 @@
               </q-card-section>
               <q-card-section>
                 <p class="text-primary">
-                  <q-badge outline color="orange" class="text-h5" :label="winners +'/'+ expectedWinners +' Winners'" />
+                  <q-badge outline color="orange" class="text-h6" :label="winners +'/'+ expectedWinners +' Winners'" />
                 </p>
               </q-card-section>
-              <q-card-actions class="bg-red-6 q-pa-lg" align="center">
+              <q-card-actions class="bg-red-6 q-pa-sm" align="center">
                 <q-btn-group push>
                   <q-btn push v-if="this.raffleStatus"
                     @click="draw()"
                     color="primary"
                     class="text-white"
-                    icon="book_online"
-                    size="lg"
+                    icon="fa fa-hand-paper"
+                    size="md"
                     label="DRAW"
                     :disable="disableButton"
                   >
@@ -73,8 +73,8 @@
                     @click="getWinners()"
                     color="secondary"
                     class="text-white"
-                    icon="book_online"
-                    size="lg"
+                    icon="fa fa-trophy"
+                    size="md"
                     label="WINNERS"
                   >
                   </q-btn>
@@ -83,7 +83,7 @@
                     color="negative"
                     class="text-white"
                     icon="logout"
-                    size="lg"
+                    size="md"
                     label="BACK"
                   >
                   </q-btn>

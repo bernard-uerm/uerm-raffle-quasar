@@ -1,7 +1,7 @@
 <template>
   <q-page class="flex flex-center">
     <div class="row justify-center">
-      <div class="col-lg-12 col-md-10 q-pa-md">
+      <div class="col-lg-12 col-md-12 q-pa-lg">
         <q-card>
           <q-card-section class="bg-red-6">
             <div class="text-h2 text-white text-center text-weight-thin">UERM CHRISTMAS RAFFLE</div>

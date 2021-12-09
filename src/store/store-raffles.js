@@ -42,6 +42,7 @@ const actions = {
     state.commit('setRaffleStatus', status)
   },
   async setRaffleDetails (state, raffleDetails) {
+    console.log(raffleDetails)
     state.commit('setRaffleDetails', raffleDetails)
   },
   async getRaffles (state) {

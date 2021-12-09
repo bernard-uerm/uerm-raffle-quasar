@@ -16,6 +16,7 @@ import Categories from 'components/Categories.vue'
 import Winners from 'components/Winners.vue'
 import { mapGetters } from 'vuex'
 export default {
+  name: 'RaffleDraw',
   components: {
     Categories,
     Winners
@@ -67,7 +68,7 @@ export default {
         await this.$store.dispatch('setRaffleStatus', true)
       } else {
         this.raffleStatus = true
-        await this.$store.dispatch('setRaffleDetails', false)
+        await this.$store.dispatch('setRaffleStatus', false)
       }
       // if (this.currentWinners.status === 'Complete') {
       //   this.raffleStatus = false

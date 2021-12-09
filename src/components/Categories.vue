@@ -122,7 +122,7 @@ export default {
       winners: 0,
       expectedWinners: 0,
       raffleWinners: [],
-      disableButton: false
+      disableButton: true
     }
   },
   computed: {
@@ -136,10 +136,23 @@ export default {
   },
   watch: {
     async drawCategories (val) {
+      if (val !== null) {
+        if (this.drawNumbers !== null) {
+          this.disableButton = false
+        }
+      }
       this.getRaffleEntries()
     },
     drawNumbers (val) {
+      console.log(val)
       this.validateDraw()
+      if (val !== null) {
+        this.disableButton = false
+      }
+
+      if (val === '') {
+        this.disableButton = true
+      }
     }
     // raffleEntries (val) {
     //   console.log(val)
@@ -159,6 +172,15 @@ export default {
       }
     },
     async shuffleEntries () {
+      // for (let i = this.raffleEntries.length - 1; i > 0; i--) {
+      //   const j = Math.floor(Math.random() * (i + 1))
+      //   [this.raffleEntries[i], this.raffleEntries[j]] = [this.raffleEntries[j], this.raffleEntries[i]]
+      // }
+      // console.log(this.raffleWinners[0].sort(() => Math.random() - 0.5))
+      const shuffle = await this.$store.dispatch('shuffleRaffleEntries', this.drawNumbers)
+      console.log(shuffle)
+    },
+    async reShuffleEntries () {
       // for (let i = this.raffleEntries.length - 1; i > 0; i--) {
       //   const j = Math.floor(Math.random() * (i + 1))
       //   [this.raffleEntries[i], this.raffleEntries[j]] = [this.raffleEntries[j], this.raffleEntries[i]]
@@ -271,7 +293,6 @@ export default {
   },
   created () {
     this.cardLoading()
-    console.log(this.currentWinners)
   }
 }
 </script>

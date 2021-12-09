@@ -58,6 +58,7 @@
 <script>
 import { mapGetters } from 'vuex'
 export default {
+  name: 'RaffleWinners',
   props: ['raffleStatus'],
   data () {
     return {
@@ -81,24 +82,38 @@ export default {
       'duration'
     ])
   },
+  watch: {
+    duration () {
+      this.computeDuration()
+    }
+  },
   methods: {
     cardLoading () {
       this.showLoading = true
-      var addedDuration = null
-      if (Number(this.duration < 15)) {
-        addedDuration = 10
-      } else if (Number(this.duration >= 20) && Number(this.duration <= 30)) {
-        addedDuration = 15
-      } else {
-        addedDuration = 50
-      }
-      this.overallDuration = this.duration + addedDuration + 's'
       setTimeout(() => {
         this.showLoading = false
         this.showCard = false
         this.showCard = true
         // this.setInit()
       }, 3000)
+    },
+    computeDuration () {
+      var addedDuration = null
+      if (Number(this.duration < 15)) {
+        if (Number(this.duration > 2) && Number(this.duration < 10)) {
+          addedDuration = 3
+        } else {
+          addedDuration = 10
+        }
+      } else if (Number(this.duration > 2) && Number(this.duration < 10)) {
+        addedDuration = 5
+      } else if (Number(this.duration >= 20) && Number(this.duration <= 30)) {
+        addedDuration = 15
+      } else {
+        addedDuration = 50
+      }
+      console.log(addedDuration)
+      this.overallDuration = this.duration + addedDuration + 's'
     },
     filterCategories (val, update) {
       if (val === '') {
@@ -118,7 +133,7 @@ export default {
   },
   created () {
     this.cardLoading()
-    console.log(this.currentWinners)
+    this.computeDuration()
   }
 }
 </script>

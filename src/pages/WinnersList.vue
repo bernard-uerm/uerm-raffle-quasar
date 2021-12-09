@@ -10,7 +10,7 @@
                 <div class="col-6 text-right">
                   <q-btn color="negative" push
                     icon="logout" large
-                    :to="'/raffles'"
+                    @click="goBack()"
                   >
                     <div class="q-pl-sm">BACK</div>
                   </q-btn>
@@ -86,6 +86,10 @@ export default {
     this.getFinalWinners()
   },
   methods: {
+    async goBack () {
+      await this.$store.dispatch('setRaffleWinnersByCategory', [])
+      this.$router.push('/raffles')
+    },
     async getFinalWinners () {
       await this.$store.dispatch('getCurrentWinners', this.$route.params.id)
       var uncomputeDuration = 0
@@ -93,7 +97,11 @@ export default {
       if (this.durationPerCategory > 0) {
         uncomputeDuration = this.durationPerCategory
         if (Number(this.durationPerCategory < 15)) {
-          addedDuration = 12
+          if (Number(this.duration > 2) && Number(this.duration < 10)) {
+            addedDuration = 3
+          } else {
+            addedDuration = 10
+          }
         } else if (Number(this.durationPerCategory >= 20) && Number(this.durationPerCategory <= 30)) {
           addedDuration = 15
         } else {
@@ -102,7 +110,11 @@ export default {
       } else {
         uncomputeDuration = this.duration
         if (Number(this.duration < 15)) {
-          addedDuration = 10
+          if (Number(this.duration > 2) && Number(this.duration < 10)) {
+            addedDuration = 3
+          } else {
+            addedDuration = 10
+          }
         } else if (Number(this.duration >= 20) && Number(this.duration <= 30)) {
           addedDuration = 15
         } else {

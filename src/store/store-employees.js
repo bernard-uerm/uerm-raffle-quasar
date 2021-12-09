@@ -15,10 +15,16 @@ const mutations = {
     state.raffleEntries = raffleEntries
   },
   shuffleRaffleEntries (state, numberOfWinners) {
-    console.log(state.raffleEntries)
     const shuffledEntries = state.raffleEntries.sort(() => Math.random() - 0.5)
-    const final = shuffledEntries.slice(0, numberOfWinners)
-    state.finalRaffleEntryWinners = final
+    const shuffle1 = shuffledEntries.sort(() => Math.random() - 0.5)
+    const shuffle2 = shuffle1.sort(() => Math.random() - 0.5)
+    const shuffle3 = shuffle2.sort(() => Math.random() - 0.5)
+    const final = shuffle3.slice(0, numberOfWinners)
+
+    const shuffledFinal = final.sort(() => Math.random() - 0.5)
+    const shuffledFinal2 = shuffledFinal.sort(() => Math.random() - 0.5)
+    const shuffledFinal3 = shuffledFinal2.sort(() => Math.random() - 0.5)
+    state.finalRaffleEntryWinners = shuffledFinal3
   },
   setRaffleWinnersByCategory (state, raffleWinnersByCategory) {
     state.raffleWinnersByCategory = raffleWinnersByCategory
@@ -29,6 +35,9 @@ const mutations = {
 }
 
 const actions = {
+  setRaffleWinnersByCategory (state, raffleWinnersByCategory) {
+    state.commit('setRaffleWinnersByCategory', raffleWinnersByCategory)
+  },
   async saveEmployees (state, employeeInfo) {
     for (var result of employeeInfo) {
       result.code = result.Code
@@ -62,7 +71,6 @@ const actions = {
         headers: { 'Content-Type': 'application/json' }
       }
     ).then((response) => response.json())
-    console.log(raffleEntryCategory)
     if (raffleEntryCategory.length > 0) {
       state.commit('setRaffleEntries', raffleEntryCategory)
     }
@@ -86,7 +94,7 @@ const actions = {
     if (saveWinner.success !== undefined) {
       var incremental = 1
       for (var result of raffleWinners) {
-        result.fullname = `${result.last_name}, ${result.first_name} ${result.middle_name}`
+        result.fullname = `${result.last_name}, ${result.first_name} ${result.middle_name === null ? '' : result.middle_name}`
         result.prize = `${this.state.raffles.raffleDetails.rafflePrize}`
         result.incrementalID = incremental++
       }

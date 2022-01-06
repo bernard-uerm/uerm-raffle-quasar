@@ -35,7 +35,7 @@ export default {
       return null
     },
     canvasBoxHeight () {
-      return this.boxHeight || '100%'
+      return this.boxHeight || '80%'
     },
     canvasBoxWidth () {
       return this.boxWidth || '100%'
@@ -204,7 +204,7 @@ export default {
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 5;
+  z-index: 3;
   overflow: hidden;
 }
 #canvas {

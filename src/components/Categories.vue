@@ -1,7 +1,7 @@
 <template>
-  <div class="q-mt-xl">
+  <div class="">
     <q-card class="card-category text-white" style="height:400px;">
-      <q-card-section class="bg-red-6">
+      <q-card-section class="bg-blue-10">
         <div class="text-h4 text-weight-thin text-uppercase text-white">
           {{raffleDetails.raffleName}}
         </div>
@@ -29,7 +29,7 @@
                   @filter="filterCategories"
                   style="padding-bottom: 15px"
                   lazy-rules
-                  color="red-6"
+                  color="blue-10"
                   :rules="[ val => val && val.length > 0 || 'Please enter the category']"
                 >
                   <template v-slot:no-option>
@@ -47,7 +47,7 @@
                   label="Enter Number of Winners"
                   v-model="drawNumbers"
                   ref="numberOfWinners"
-                  color="red-6"
+                  color="blue-10"
                   :rules="[ val => val && val.length > 0 || 'Please enter the number of winners']"
                 >
                 </q-input>
@@ -57,7 +57,7 @@
                   <q-badge outline color="orange" class="text-h6" :label="winners +'/'+ expectedWinners +' Winners'" />
                 </p>
               </q-card-section>
-              <q-card-actions class="bg-red-6 q-pa-sm" align="center">
+              <q-card-actions class="bg-blue-10 q-pa-sm" align="center">
                 <q-btn-group push>
                   <q-btn push v-if="this.raffleStatus"
                     @click="draw()"
@@ -93,11 +93,11 @@
           </div>
         </transition>
         <q-inner-loading :showing="showLoading">
-          <q-spinner-cube size="xl" color="red-6" />
+          <q-spinner-cube size="xl" color="blue-10" />
         </q-inner-loading>
 
         <q-inner-loading :showing="this.drawLoading" style="padding-top: -10px;">
-          <q-spinner-pie size="180px" color="red-6" />
+          <q-spinner-pie size="180px" color="blue-10" />
           <h4 class="text-black">LOADING WINNERS</h4>
         </q-inner-loading>
       </q-form>

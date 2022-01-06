@@ -3,7 +3,7 @@
     <form>
       <q-card class="card-category text-white card-border-primary" style="overflow-y:auto;height:532px;">
         <q-card-section>
-          <div class="text-h3 text-weight-thin text-red-6">
+          <div class="text-h3 text-weight-thin text-blue-10">
             WINNERS OF {{raffleDetails.rafflePrize}}
           </div>
         </q-card-section>
@@ -47,8 +47,8 @@
           </div>
         </transition>
         <q-inner-loading :showing="showLoading" style="padding-top: 60px !important;">
-          <q-spinner-pie size="180px" color="red-6" />
-          <h3 class="text-weight-thin text-red-6">LOADING WINNERS</h3>
+          <q-spinner-pie size="180px" color="blue-10" />
+          <h3 class="text-weight-thin text-blue-10">LOADING WINNERS</h3>
         </q-inner-loading>
       </q-card>
     </form>

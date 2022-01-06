@@ -3,7 +3,7 @@
     <div class="container">
       <div class="row justify-center">
         <div class="col-12" style="margin-top: 25%">
-          <q-card class="card-border-primary bg-red-6" style="height: 600px; overflow-y:auto;width:1200px;">
+          <q-card class="card-border-primary bg-blue-10" style="height: 600px; overflow-y:auto;width:1200px;">
             <q-card-section>
               <div class="row">
                 <div class="col-6 text-h3 text-weight-thin text-white text-left blink">CONGRATULATIONS</div>

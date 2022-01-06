@@ -15,12 +15,12 @@
           >
           <div v-show="showCard">
             <q-card-section>
-              <div class="text-h6 text-weight-thin text-red-6 text-uppercase">{{raffle.name}}</div>
+              <div class="text-h6 text-weight-thin text-blue-10 text-uppercase">{{raffle.name}}</div>
             </q-card-section>
             <q-card-actions class="row items-start q-gutter-md justify-center">
               <q-btn
                 @click="drawRaffle(raffle.id)"
-                color="red-6"
+                color="blue-10"
                 icon="fa fa-star-of-life"
                 push
                 size="md"
@@ -31,7 +31,7 @@
           </div>
         </transition>
         <q-inner-loading :showing="showLoading">
-          <q-spinner-cube size="xl" color="red-6" />
+          <q-spinner-cube size="xl" color="blue-10" />
         </q-inner-loading>
       </q-card>
     </div>

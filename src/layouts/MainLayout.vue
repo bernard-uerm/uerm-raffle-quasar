@@ -1,7 +1,7 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-page-container>
-      <Snowf
+    <q-page-container class="front">
+      <!-- <Snowf
         :amount="50"
         :size="5"
         :speed="1.5"
@@ -12,24 +12,34 @@
         :zIndex="null"
         :resize="true"
         color="#fff"
-      />
+      /> -->
       <vue-page-transition name="overlay-down-full">
         <router-view />
       </vue-page-transition>
     </q-page-container>
+    <Fireworks class="behind" />
   </q-layout>
 </template>
 
 <script>
-import Snowf from 'vue-snowf'
+// import Snowf from 'vue-snowf'
+import Fireworks from 'components/Fireworks.vue'
 export default {
   name: 'MainLayout',
   components: {
-    Snowf
+    Fireworks
   }
 }
 </script>
 <style>
+  .front {
+    display: block;
+    z-index: 5;
+    position: relative;
+  }
+  .behind {
+    display: block;
+  }
   body {
     background-image: url('~assets/christmas-raffle.jpg') !important;
     background-repeat: no-repeat !important;
@@ -38,10 +48,10 @@ export default {
   .card-border-primary {
     border-style: solid;
     border-color: rgba(0,0,0,0.12);
-    border-left-color: #f44336 !important;
-    border-right-color: #f44336 !important;
+    border-left-color: #1867c0 !important;
+    border-right-color: #1867c0 !important;
   }
   .overlay-left,  .overlay-right,  .overlay-top,  .overlay-bottom   {
-    background: #f44336 !important;
+    background: #1867c0 !important;
   }
 </style>

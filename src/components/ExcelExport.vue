@@ -25,6 +25,13 @@
               no-caps
               @click="clearWinners"
             />
+            <q-btn push
+              color="red"
+              icon-right="delete"
+              label="Reset Raffle Winners"
+              no-caps
+              @click="resetRaffleWinners"
+            />
           </q-btn-group>
         </template>
       </q-table>
@@ -113,6 +120,10 @@ export default {
     },
     async clearWinners () {
       await this.$store.dispatch('clearWinners')
+      this.getWinners()
+    },
+    async resetRaffleWinners () {
+      await this.$store.dispatch('resetRaffleWinners')
       this.getWinners()
     }
   }

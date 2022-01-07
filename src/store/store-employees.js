@@ -63,7 +63,7 @@ const actions = {
     console.log(raffleID)
   },
   async getRaffleEntries (state, category) {
-    console.log(category)
+    console.log(`${this.state.raffles.apiUrl}raffle-entries?category=${category}`)
     const raffleEntryCategory = await fetch(
       `${this.state.raffles.apiUrl}raffle-entries?category=${category}`,
       {
@@ -71,6 +71,7 @@ const actions = {
         headers: { 'Content-Type': 'application/json' }
       }
     ).then((response) => response.json())
+    console.log(raffleEntryCategory)
     if (raffleEntryCategory.length > 0) {
       state.commit('setRaffleEntries', raffleEntryCategory)
     }

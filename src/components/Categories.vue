@@ -131,7 +131,8 @@ export default {
       'currentWinners',
       'raffleDetails',
       'raffleEntries',
-      'finalRaffleEntryWinners'
+      'finalRaffleEntryWinners',
+      'winnersV2'
     ])
   },
   watch: {
@@ -198,6 +199,8 @@ export default {
         this.expectedWinners = this.raffleDetails.raffleExpectedWinners
         if (this.currentWinners.length > 0) {
           this.winners = this.currentWinners.length
+        } else {
+          this.winners = this.winnersV2.length
         }
       }, 3000)
     },

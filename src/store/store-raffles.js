@@ -7,6 +7,7 @@ const state = {
   winnersStatus: false,
   duration: 30,
   allWinners: [],
+  winnersV2: [],
   raffleStatus: false
 }
 
@@ -31,6 +32,9 @@ const mutations = {
   },
   setAllWinners (state, winners) {
     state.allWinners = winners
+  },
+  setCurrentWinnersV2 (state, winners) {
+    state.winnersV2 = winners
   },
   setRaffleStatus (state, raffleStatus) {
     state.raffleStatus = raffleStatus
@@ -111,6 +115,28 @@ const actions = {
       state.commit('setWinnersStatus', false)
     }
   },
+  async getCurrentWinnersV2 (state, raffleID) {
+    console.log(`${this.state.raffles.apiUrl}raffle-get-winners-v2?raffleID=${raffleID}`)
+    const currentRaffleWinner = await fetch(
+      `${this.state.raffles.apiUrl}raffle-get-winners-v2?raffleID=${raffleID}`,
+      {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' }
+      }
+    ).then((response) => response.json())
+    console.log(currentRaffleWinner)
+    if (Object.keys(currentRaffleWinner).length > 0) {
+      state.commit('setCurrentWinnersV2', currentRaffleWinner)
+      var incremental = 1
+      for (var result of currentRaffleWinner) {
+        result.incrementalID = incremental++
+      }
+      return currentRaffleWinner
+    } else {
+      state.commit('setCurrentWinnersV2', [])
+      state.commit('setWinnersStatus', false)
+    }
+  },
   async getWinnerPerCategory (state, raffleWinnersInfo) {
     const finalWinners = await fetch(
       `${this.state.raffles.apiUrl}raffle-get-winners?raffleID=${raffleWinnersInfo.raffleID}&category=${raffleWinnersInfo.categoryID}`,
@@ -157,6 +183,17 @@ const actions = {
     ).then((response) => response.json())
 
     return clearWinners
+  },
+  async resetRaffleWinners (state) {
+    const resetRaffle = await fetch(
+      `${this.state.raffles.apiUrl}raffle-reset-overall-winners`,
+      {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' }
+      }
+    ).then((response) => response.json())
+    console.log(resetRaffle)
+    return resetRaffle
   }
 }
 
@@ -181,6 +218,9 @@ const getters = {
   },
   setAllWinners (state) {
     return state.allWinners
+  },
+  winnersV2 (state) {
+    return state.winnersV2
   },
   raffleStatus (state) {
     return state.raffleStatus

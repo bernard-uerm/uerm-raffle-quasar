@@ -1,5 +1,5 @@
 <template>
-  <div class="q-mt-xl">
+  <div class="">
     <form>
       <q-card class="card-category text-white card-border-primary" style="overflow-y:auto;height:532px;">
         <q-card-section>
@@ -8,7 +8,7 @@
           </div>
         </q-card-section>
         <!-- <q-card-section>
-          <table class="winner-table" :border="this.tableBorder" style="border-collapse: collapse;font-size:14px;width:100%;border:1px solid #f44336;color:#f44336">
+          <table class="winner-table" :border="this.tableBorder" style="border-collapse: collapse;font-size:14px;width:100%;border:1px solid #0d47a1;color:#0d47a1">
             <tr>
               <td class="text-center" width="11%">#</td>
               <td class="text-center" width="11%">ID</td>
@@ -29,7 +29,7 @@
                 <q-card-section id="scroller"
                   :style="`animation-duration: ${this.overallDuration};`"
                 >
-                    <table class="winner-table" :border="this.tableBorder" style="border-collapse: collapse;font-size:14px;width:100%;border:1px solid #f44336;color:#f44336">
+                    <table class="winner-table" :border="this.tableBorder" style="border-collapse: collapse;font-size:14px;width:100%;border:1px solid #0d47a1;color:#0d47a1">
                       <tr
                         v-for="raffle in this.currentWinners"
                         :key="raffle.entry_id"
@@ -215,7 +215,7 @@ export default {
   padding: 8px;
 }
 
-.winner-table tr:nth-child(even) {background-color: #f44336; color:#fff}
+.winner-table tr:nth-child(even) {background-color: #0d47a1; color:#fff}
 
 .text-center {
   text-align: center !important;

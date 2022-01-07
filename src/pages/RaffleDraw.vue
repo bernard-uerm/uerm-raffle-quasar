@@ -1,5 +1,5 @@
 <template>
-  <q-page class="flex flex-center" style="padding-top: 120px;">
+  <q-page class="flex flex-center" style="padding-top: 70px;">
     <div class="row">
       <div class="col-6 text-center q-pt-md">
         <Categories :raffleStatus='this.raffleStatus' />
@@ -26,7 +26,8 @@ export default {
       'raffleDetails',
       'currentWinners',
       'winnersStatus',
-      'duration'
+      'duration',
+      'winnersV2'
     ])
   },
   data () {
@@ -63,6 +64,7 @@ export default {
     },
     async getCurrentWinners () {
       await this.$store.dispatch('getCurrentWinners', this.raffleInfo.raffleID)
+      await this.$store.dispatch('getCurrentWinnersV2', this.raffleInfo.raffleID)
       if (this.currentWinners.length >= this.raffleDetails.raffleExpectedWinners) {
         this.raffleStatus = false
         await this.$store.dispatch('setRaffleStatus', true)
@@ -70,6 +72,14 @@ export default {
         this.raffleStatus = true
         await this.$store.dispatch('setRaffleStatus', false)
       }
+
+      // if (this.winnersV2.length >= this.raffleDetails.raffleExpectedWinners) {
+      //   this.raffleStatus = false
+      //   await this.$store.dispatch('setRaffleStatus', true)
+      // } else {
+      //   this.raffleStatus = true
+      //   await this.$store.dispatch('setRaffleStatus', false)
+      // }
       // if (this.currentWinners.status === 'Complete') {
       //   this.raffleStatus = false
       // }

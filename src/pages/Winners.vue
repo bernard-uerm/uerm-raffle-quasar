@@ -2,7 +2,7 @@
   <q-page class="flex flex-center">
     <div class="container">
       <div class="row justify-center">
-        <div class="col-12" style="margin-top: 25%">
+        <div class="col-12" style="margin-top: 15%">
           <q-card class="card-border-primary bg-primary" style="height: 470px; overflow-y:auto; ">
             <q-card-section>
               <div class="row">

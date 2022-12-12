@@ -46,7 +46,7 @@ const actions = {
       result.middleName = result.MiddleName
       result.position = result.Position
       result.department = result.Department
-      result.category = result.Group
+      result.category = result.Category
       var employees = await fetch(
         `${this.state.employees.apiUrl}raffle-save-entries`,
         {

@@ -32,7 +32,7 @@ export default {
 }
 </script>
 <style>
-  .front {
+.front {
     display: block;
     z-index: 5;
     position: relative;
@@ -41,7 +41,7 @@ export default {
     display: block;
   }
   body {
-    background-image: url('~assets/christmas-raffle.jpg') !important;
+    background-image: url('~assets/christmas-raffle 2022.jpg') !important;
     background-repeat: no-repeat !important;
     background-size: cover !important;
   }

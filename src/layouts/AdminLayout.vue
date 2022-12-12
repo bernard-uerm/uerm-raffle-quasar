@@ -14,8 +14,8 @@ export default {
 }
 </script>
 <style>
-  body {
-    background-image: url('~assets/christmas-raffle.jpg') !important;
+body {
+    background-image: url('~assets/christmas-raffle 2022.jpg') !important;
     background-repeat: no-repeat !important;
     background-size: cover !important;
   }

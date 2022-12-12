@@ -4,11 +4,11 @@
       <div class="col-lg-12 col-md-12 q-pa-lg">
         <q-card>
           <q-card-section class="bg-blue-10">
-            <div class="text-h2 text-white text-center text-weight-thin">UERM ANNIVERSARY RAFFLE</div>
+            <div class="text-h2 text-white text-center text-weight-thin">UERM RAFFLE</div>
           </q-card-section>
           <q-card-actions
             align="center"
-            class="text-weight-thin bg-yellow-8 cursor-pointer text-h3"
+            class="text-weight-thin bg-red-10 cursor-pointer text-h3"
             v-ripple
             @click="startRaffle"
           >

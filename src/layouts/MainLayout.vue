@@ -23,35 +23,38 @@
 
 <script>
 // import Snowf from 'vue-snowf'
-import Fireworks from 'components/Fireworks.vue'
+import Fireworks from "components/Fireworks.vue";
 export default {
-  name: 'MainLayout',
+  name: "MainLayout",
   components: {
-    Fireworks
-  }
-}
+    Fireworks,
+  },
+};
 </script>
 <style>
 .front {
-    display: block;
-    z-index: 5;
-    position: relative;
-  }
-  .behind {
-    display: block;
-  }
-  body {
-    background-image: url('~assets/christmas-raffle 2022.jpg') !important;
-    background-repeat: no-repeat !important;
-    background-size: cover !important;
-  }
-  .card-border-primary {
-    border-style: solid;
-    border-color: rgba(0,0,0,0.12);
-    border-left-color: #1867c0 !important;
-    border-right-color: #1867c0 !important;
-  }
-  .overlay-left,  .overlay-right,  .overlay-top,  .overlay-bottom   {
-    background: #1867c0 !important;
-  }
+  display: block;
+  z-index: 5;
+  position: relative;
+}
+.behind {
+  display: block;
+}
+body {
+  background-image: url("~assets/bg-raffle.jpg") !important;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+}
+.card-border-primary {
+  border-style: solid;
+  border-color: rgba(0, 0, 0, 0.12);
+  border-left-color: #1867c0 !important;
+  border-right-color: #1867c0 !important;
+}
+.overlay-left,
+.overlay-right,
+.overlay-top,
+.overlay-bottom {
+  background: #1867c0 !important;
+}
 </style>

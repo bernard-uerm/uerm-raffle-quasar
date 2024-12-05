@@ -71,7 +71,7 @@ const actions = {
         headers: { 'Content-Type': 'application/json' }
       }
     ).then((response) => response.json())
-    console.log(raffleEntryCategory)
+    console.log(raffleEntryCategory, 'raffleCategory')
     if (raffleEntryCategory.length > 0) {
       state.commit('setRaffleEntries', raffleEntryCategory)
     }

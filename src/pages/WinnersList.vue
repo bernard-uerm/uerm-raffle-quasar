@@ -3,48 +3,178 @@
     <div class="container">
       <div class="row justify-center">
         <div class="col-12">
-          <q-card class="card-border-primary bg-blue-10" style="height: 600px; overflow-y:auto;width:1200px;">
+          <q-card
+            class="card-border-primary bg-blue-10"
+            style="height: 600px; overflow-y: auto; width: 1200px"
+          >
             <q-card-section>
               <div class="row">
-                <div class="col-6 text-h3 text-weight-thin text-white text-left blink">CONGRATULATIONS</div>
+                <div
+                  class="col-6 text-h3 text-weight-thin text-white text-left blink"
+                >
+                  CONGRATULATIONS
+                </div>
+
                 <div class="col-6 text-right">
-                  <q-btn color="negative" push
-                    icon="logout" large
+                  <q-btn
+                    color="negative"
+                    push
+                    icon="logout"
+                    large
                     @click="goBack()"
                   >
                     <div class="q-pl-sm">BACK</div>
                   </q-btn>
                 </div>
               </div>
-              <table class="winner-table" :border="this.tableBorder" style="border-collapse: collapse;font-size:22px;color:white;">
+
+              <table
+                v-if="this.overallWinners.length > 5"
+                class="winner-table"
+                :border="this.tableBorder"
+                style="border-collapse: collapse; font-size: 25px; color: white"
+              >
                 <tr>
                   <td class="text-center" width="8%">#</td>
+
                   <td class="text-center" width="10%">ID</td>
+
                   <td class="text-center" width="20%">NAME</td>
+
                   <td class="text-center" width="29%">DEPARTMENT</td>
+
                   <td class="text-center" width="18%">POSITION</td>
+
                   <td class="text-center" width="20%">PRIZE</td>
                 </tr>
               </table>
-
             </q-card-section>
+
             <Fireworks />
-            <div id="main">
-              <q-card-section id="scroller"
+
+            <div id="main" v-if="this.overallWinners.length > 5">
+              <q-card-section
+                id="scroller"
                 :style="`animation-duration: ${this.overallDuration};`"
               >
-                <table class="winner-table" :border="this.tableBorder" style="border-collapse: collapse;font-size:22px;">
+                <table
+                  class="winner-table"
+                  :border="this.tableBorder"
+                  style="border-collapse: collapse; font-size: 25px"
+                >
                   <tr
-                    v-for="raffle in this.overallWinners" :key="raffle.entry_id" v-bind="raffle">
-                    <td class="text-center" width="8%">{{raffle.incrementalID}}</td>
-                    <td class="text-center" width="10%">{{raffle.entry_id}}</td>
-                    <td class="text-center" width="20%">{{raffle.fullname}}</td>
-                    <td class="text-center" width="29%">{{raffle.department}}</td>
-                    <td class="text-center" width="18%">{{raffle.position}}</td>
-                    <td class="text-center" width="20%">{{raffle.prize}}</td>
+                    v-for="raffle in this.overallWinners"
+                    :key="raffle.entry_id"
+                    v-bind="raffle"
+                  >
+                    <td class="text-center" width="8%">
+                      {{ raffle.incrementalID }}
+                    </td>
+
+                    <td class="text-center" width="10%">
+                      {{ raffle.entry_id }}
+                    </td>
+
+                    <td class="text-center" width="20%">
+                      {{ raffle.fullname }}
+                    </td>
+
+                    <td class="text-center" width="29%">
+                      {{ raffle.department }}
+                    </td>
+
+                    <td class="text-center" width="18%">
+                      {{ raffle.position }}
+                    </td>
+
+                    <td class="text-center" width="20%">{{ raffle.prize }}</td>
                   </tr>
                 </table>
               </q-card-section>
+            </div>
+
+            <div v-else>
+              <q-card-section>
+                <q-card>
+                  <q-card-section
+                    class="text-h4 text-weight-bold"
+                    align="center"
+                  >
+                    WINNER(S) OF {{ this.overallWinners[0].prize }}
+                  </q-card-section>
+
+                  <q-card-section>
+                    <q-list
+                      bordered
+                      padding
+                      class="rounded-borders scroll"
+                      separator
+                    >
+                      <q-item
+                        v-ripple
+                        v-for="raffle in this.overallWinners"
+                        :key="raffle.entry_id"
+                      >
+                        <q-item-section
+                          caption
+                          side
+                          class="text-weight-bolder text-h5"
+                        >
+                          {{ raffle.entry_id }}
+                        </q-item-section>
+                        <q-item-section>
+                          <q-item-label
+                            lines="1"
+                            class="text-uppercase text-h5"
+                          >
+                            {{ raffle.fullname }}
+                          </q-item-label>
+                        </q-item-section>
+                        <q-item-section
+                          caption
+                          side
+                          class="text-weight-bolder text-h5"
+                        >
+                          <q-item-label class="text-h6 text-uppercase">
+                            {{ raffle.department }}
+                          </q-item-label>
+
+                          <q-item-label class="text-h6 text-uppercase">
+                            {{ raffle.position }}
+                          </q-item-label>
+                        </q-item-section>
+                      </q-item>
+                    </q-list>
+                  </q-card-section>
+                </q-card>
+              </q-card-section>
+
+              <!-- <table
+                :border="this.tableBorder"
+                style="border-collapse: collapse; font-size: 22px"
+              >
+                <tr
+                  v-for="raffle in this.overallWinners"
+                  :key="raffle.entry_id"
+                  v-bind="raffle"
+                >
+                  <td class="text-center" width="8%">
+                    {{ raffle.incrementalID }}
+                  </td>
+
+                  <td class="text-center" width="10%">{{ raffle.entry_id }}</td>
+
+                  <td class="text-center" width="20%">{{ raffle.fullname }}</td>
+
+                  <td class="text-center" width="29%">
+                    {{ raffle.department }}
+                  </td>
+
+                  <td class="text-center" width="18%">{{ raffle.position }}</td>
+
+                  <td class="text-center" width="20%">{{ raffle.prize }}</td>
+                </tr>
+              </table> -->
             </div>
           </q-card>
         </div>
@@ -54,94 +184,101 @@
 </template>
 
 <script>
-import Fireworks from 'components/Fireworks.vue'
-import { mapGetters } from 'vuex'
-import employees from 'components/employees.json'
+import Fireworks from "components/Fireworks.vue";
+import { mapGetters } from "vuex";
+import employees from "components/employees.json";
 export default {
   components: {
-    Fireworks
+    Fireworks,
   },
-  data () {
+  data() {
     return {
       winners: employees,
       overallDuration: null,
       tableBorder: 0,
-      tada: require('../assets/sounds/tada.mp3'),
-      overallWinners: []
-    }
+      tada: require("../assets/sounds/tada.mp3"),
+      overallWinners: [],
+    };
   },
   computed: {
     ...mapGetters([
-      'raffleDetails',
-      'currentWinners',
-      'raffleWinnersByCategory',
-      'duration',
-      'durationPerCategory',
-      'raffleStatus'
-    ])
+      "raffleDetails",
+      "currentWinners",
+      "raffleWinnersByCategory",
+      "duration",
+      "durationPerCategory",
+      "raffleStatus",
+    ]),
   },
-  created () {
-    var tadaAudio = new Audio(this.tada)
-    tadaAudio.play()
-    this.getFinalWinners()
+  created() {
+    var tadaAudio = new Audio(this.tada);
+    tadaAudio.play();
+    this.getFinalWinners();
   },
   methods: {
-    async goBack () {
-      await this.$store.dispatch('setRaffleWinnersByCategory', [])
-      this.$router.push('/raffles')
+    async goBack() {
+      await this.$store.dispatch("setRaffleWinnersByCategory", []);
+      this.$router.push("/raffles");
     },
-    async getFinalWinners () {
-      await this.$store.dispatch('getCurrentWinners', this.$route.params.id)
-      var uncomputeDuration = 0
-      var addedDuration = null
+    async getFinalWinners() {
+      await this.$store.dispatch("getCurrentWinners", this.$route.params.id);
+      var uncomputeDuration = 0;
+      var addedDuration = null;
       if (this.durationPerCategory > 0) {
-        uncomputeDuration = this.durationPerCategory
+        uncomputeDuration = this.durationPerCategory;
         if (Number(this.durationPerCategory < 15)) {
           if (Number(this.duration > 2) && Number(this.duration < 10)) {
-            addedDuration = 3
+            addedDuration = 3;
           } else {
-            addedDuration = 10
+            addedDuration = 10;
           }
-        } else if (Number(this.durationPerCategory >= 20) && Number(this.durationPerCategory <= 30)) {
-          addedDuration = 15
+        } else if (
+          Number(this.durationPerCategory >= 20) &&
+          Number(this.durationPerCategory <= 30)
+        ) {
+          addedDuration = 15;
         } else {
-          addedDuration = 50
+          addedDuration = 50;
         }
       } else {
-        uncomputeDuration = this.duration
+        uncomputeDuration = this.duration;
         if (Number(this.duration < 15)) {
           if (Number(this.duration > 2) && Number(this.duration < 10)) {
-            addedDuration = 3
+            addedDuration = 3;
           } else {
-            addedDuration = 10
+            addedDuration = 10;
           }
         } else if (Number(this.duration >= 20) && Number(this.duration <= 30)) {
-          addedDuration = 15
+          addedDuration = 15;
         } else {
-          addedDuration = 50
+          addedDuration = 50;
         }
       }
-      this.overallDuration = uncomputeDuration + addedDuration + 's'
-      if (this.raffleStatus) {
-        this.overallWinners = this.currentWinners
-      } else {
-        this.overallWinners = this.raffleWinnersByCategory
+      if (this.currentWinners.length < 10) {
+        addedDuration = 4;
       }
-    }
-  }
-}
+      console.log(this.currentWinners, uncomputeDuration, addedDuration);
+      this.overallDuration = uncomputeDuration + addedDuration + "s";
+      console.log(this.overallDuration);
+      if (this.raffleStatus) {
+        this.overallWinners = this.currentWinners;
+      } else {
+        this.overallWinners = this.raffleWinnersByCategory;
+      }
+    },
+  },
+};
 </script>
 
 <style scoped>
-
 #main {
   width: 100%;
   padding-top: 35%;
   margin: auto;
   font-size: 44px;
   font-size: calc(22px + (36 - 22) * ((100vw - 980px) / (1400 - 980)));
-  color: #FFFFFF;
-  color: var(--white, #FFFFFF);
+  color: #ffffff;
+  color: var(--white, #ffffff);
   overflow: hidden;
 }
 
@@ -164,7 +301,7 @@ export default {
   right: 0;
   animation-name: scroll;
   animation-timing-function: linear;
-  animation-iteration-count: infinite
+  animation-iteration-count: infinite;
 }
 
 .winner-table {
@@ -172,12 +309,16 @@ export default {
   width: 100%;
 }
 
-.winner-table th, td {
+.winner-table th,
+td {
   text-align: left;
   padding: 8px;
 }
 
-.winner-table tr:nth-child(even) {background-color: #fff; color:#0d47a1 }
+.winner-table tr:nth-child(even) {
+  background-color: #fff;
+  color: #0d47a1;
+}
 
 @keyframes scroll {
   0% {

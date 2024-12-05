@@ -1,18 +1,21 @@
 <template>
   <div class="">
-    <q-card class="card-category text-white" style="height:400px;">
+    <q-card class="card-category text-white" style="height: 400px">
       <q-card-section class="bg-blue-10">
         <div class="text-h4 text-weight-thin text-uppercase text-white">
-          {{raffleDetails.raffleName}}
+          {{ raffleDetails.raffleName }}
         </div>
       </q-card-section>
       <q-form class="q-gutter-xs" ref="requestForm">
-        <q-card-section style="height:300px;" v-if="showLoading"></q-card-section>
+        <q-card-section
+          style="height: 300px"
+          v-if="showLoading"
+        ></q-card-section>
         <transition
-            appear
-            enter-active-class="animated fadeIn"
-            leave-active-class="animated fadeOut"
-          >
+          appear
+          enter-active-class="animated fadeIn"
+          leave-active-class="animated fadeOut"
+        >
           <div v-show="showCard">
             <div v-if="showDrawCard">
               <q-card-section class="q-mt-lg">
@@ -30,7 +33,10 @@
                   style="padding-bottom: 15px"
                   lazy-rules
                   color="blue-10"
-                  :rules="[ val => val && val.length > 0 || 'Please enter the category']"
+                  :rules="[
+                    (val) =>
+                      (val && val.length > 0) || 'Please enter the category',
+                  ]"
                 >
                   <template v-slot:no-option>
                     <q-item>
@@ -48,18 +54,31 @@
                   v-model="drawNumbers"
                   ref="numberOfWinners"
                   color="blue-10"
-                  :rules="[ val => val && val.length > 0 || 'Please enter the number of winners']"
+                  debounce="300"
+                  :rules="[
+                    (val) =>
+                      (val && val.length > 0) ||
+                      'Please enter the number of winners',
+                  ]"
+                  @input="(val) => this.drawNumberOfWinners(val)"
                 >
                 </q-input>
               </q-card-section>
               <q-card-section>
                 <p class="text-primary">
-                  <q-badge outline color="orange" class="text-h6" :label="winners +'/'+ expectedWinners +' Winners'" />
+                  <q-badge
+                    outline
+                    color="orange"
+                    class="text-h6"
+                    :label="winners + '/' + expectedWinners + ' Winners'"
+                  />
                 </p>
               </q-card-section>
               <q-card-actions class="bg-blue-10 q-pa-sm" align="center">
                 <q-btn-group push>
-                  <q-btn push v-if="this.raffleStatus"
+                  <q-btn
+                    push
+                    v-if="this.raffleStatus"
                     @click="draw()"
                     color="primary"
                     class="text-white"
@@ -69,7 +88,9 @@
                     :disable="disableButton"
                   >
                   </q-btn>
-                  <q-btn push v-if="!this.raffleStatus"
+                  <q-btn
+                    push
+                    v-if="!this.raffleStatus"
                     @click="getWinners()"
                     color="secondary"
                     class="text-white"
@@ -78,7 +99,8 @@
                     label="WINNERS"
                   >
                   </q-btn>
-                  <q-btn push
+                  <q-btn
+                    push
                     @click="setInit()"
                     color="negative"
                     class="text-white"
@@ -96,7 +118,7 @@
           <q-spinner-cube size="xl" color="blue-10" />
         </q-inner-loading>
 
-        <q-inner-loading :showing="this.drawLoading" style="padding-top: -10px;">
+        <q-inner-loading :showing="this.drawLoading" style="padding-top: -10px">
           <q-spinner-pie size="180px" color="blue-10" />
           <h4 class="text-black">LOADING WINNERS</h4>
         </q-inner-loading>
@@ -106,10 +128,10 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters } from "vuex";
 export default {
-  props: ['raffleStatus'],
-  data () {
+  props: ["raffleStatus"],
+  data() {
     return {
       drawCategories: null,
       drawCategoriesOptions: null,
@@ -118,43 +140,51 @@ export default {
       showLoading: false,
       drawLoading: false,
       showDrawCard: true,
-      drumRoll: require('../assets/sounds/drum-roll.mp3'),
+      drumRoll: require("../assets/sounds/drum-roll.mp3"),
       winners: 0,
       expectedWinners: 0,
       raffleWinners: [],
-      disableButton: true
-    }
+      disableButton: true,
+    };
   },
   computed: {
     ...mapGetters([
-      'categories',
-      'currentWinners',
-      'raffleDetails',
-      'raffleEntries',
-      'finalRaffleEntryWinners',
-      'winnersV2'
-    ])
+      "categories",
+      "currentWinners",
+      "raffleDetails",
+      "raffleEntries",
+      "finalRaffleEntryWinners",
+      "winnersV2",
+    ]),
   },
   watch: {
-    async drawCategories (val) {
+    async drawCategories(val) {
       if (val !== null) {
         if (this.drawNumbers !== null) {
-          this.disableButton = false
+          this.disableButton = false;
         }
       }
-      this.getRaffleEntries()
+      this.getRaffleEntries();
     },
-    drawNumbers (val) {
-      console.log(val)
-      this.validateDraw()
-      if (val !== null) {
-        this.disableButton = false
-      }
+    // drawNumbers(val) {
+    //   console.log(val);
+    //   if (val !== null) {
+    //     const neededWinners =
+    //       Number(this.expectedWinners) - Number(this.winners);
 
-      if (val === '') {
-        this.disableButton = true
-      }
-    }
+    //     if (val > neededWinners) {
+    //       this.disableButton = true;
+    //     } else {
+    //       this.disableButton = false;
+    //     }
+    //   }
+
+    //   if (val === "") {
+    //     this.disableButton = true;
+    //   }
+
+    //   this.validateDraw();
+    // },
     // raffleEntries (val) {
     //   console.log(val)
     // },
@@ -163,97 +193,131 @@ export default {
     // }
   },
   methods: {
-    async validateDraw () {
-      if (Number(this.drawNumbers) > Number(this.raffleDetails.raffleExpectedWinners)) {
-        this.disableButton = true
-        return false
-      } else {
-        this.disableButton = false
-        return true
+    async drawNumberOfWinners(val) {
+      if (val !== null) {
+        this.validateDraw();
+        const neededWinners =
+          Number(this.expectedWinners) - Number(this.winners);
+
+        console.log(val, neededWinners);
+        if (Number(val) > neededWinners) {
+          this.disableButton = true;
+        } else {
+          this.disableButton = false;
+        }
+      }
+
+      if (val === "") {
+        this.disableButton = true;
       }
     },
-    async shuffleEntries () {
+    async validateDraw() {
+      if (
+        Number(this.drawNumbers) >
+        Number(this.raffleDetails.raffleExpectedWinners)
+      ) {
+        this.disableButton = true;
+        return false;
+      } else {
+        this.disableButton = false;
+        return true;
+      }
+    },
+    async shuffleEntries() {
       // for (let i = this.raffleEntries.length - 1; i > 0; i--) {
       //   const j = Math.floor(Math.random() * (i + 1))
       //   [this.raffleEntries[i], this.raffleEntries[j]] = [this.raffleEntries[j], this.raffleEntries[i]]
       // }
       // console.log(this.raffleWinners[0].sort(() => Math.random() - 0.5))
-      const shuffle = await this.$store.dispatch('shuffleRaffleEntries', this.drawNumbers)
-      console.log(shuffle)
+      const shuffle = await this.$store.dispatch(
+        "shuffleRaffleEntries",
+        this.drawNumbers
+      );
+      console.log(shuffle);
     },
-    async reShuffleEntries () {
+    async reShuffleEntries() {
       // for (let i = this.raffleEntries.length - 1; i > 0; i--) {
       //   const j = Math.floor(Math.random() * (i + 1))
       //   [this.raffleEntries[i], this.raffleEntries[j]] = [this.raffleEntries[j], this.raffleEntries[i]]
       // }
       // console.log(this.raffleWinners[0].sort(() => Math.random() - 0.5))
-      const shuffle = await this.$store.dispatch('shuffleRaffleEntries', this.drawNumbers)
-      console.log(shuffle)
+      const shuffle = await this.$store.dispatch(
+        "shuffleRaffleEntries",
+        this.drawNumbers
+      );
+      console.log(shuffle);
     },
-    cardLoading () {
-      this.showLoading = true
+    cardLoading() {
+      this.showLoading = true;
       setTimeout(() => {
-        this.showLoading = false
-        this.showCard = false
-        this.showCard = true
-        this.expectedWinners = this.raffleDetails.raffleExpectedWinners
+        this.showLoading = false;
+        this.showCard = false;
+        this.showCard = true;
+        this.expectedWinners = this.raffleDetails.raffleExpectedWinners;
         if (this.currentWinners.length > 0) {
-          this.winners = this.currentWinners.length
+          this.winners = this.currentWinners.length;
         } else {
-          this.winners = this.winnersV2.length
+          this.winners = this.winnersV2.length;
         }
-      }, 3000)
+      }, 3000);
     },
-    async setInit () {
-      this.$router.push('/raffles')
+    async setInit() {
+      this.$router.push("/raffles");
     },
-    filterCategories (val, update) {
-      if (val === '') {
+    filterCategories(val, update) {
+      if (val === "") {
         update(() => {
-          this.drawCategoriesOptions = this.categories
-        })
-        return
+          this.drawCategoriesOptions = this.categories;
+        });
+        return;
       }
       update(() => {
-        const needle = val.toLowerCase()
-        this.drawCategoriesOptions = this.categories.filter(v => v.toLowerCase().indexOf(needle) > -1)
-      })
+        const needle = val.toLowerCase();
+        this.drawCategoriesOptions = this.categories.filter(
+          (v) => v.toLowerCase().indexOf(needle) > -1
+        );
+      });
     },
-    async getRaffleEntries () {
-      await this.$store.dispatch('getRaffleEntries', this.drawCategories)
+    async getRaffleEntries() {
+      await this.$store.dispatch("getRaffleEntries", this.drawCategories);
     },
-    async draw () {
-      var drums = new Audio(this.drumRoll)
-      drums.play()
-      const validate = await this.validateDraw()
-      this.drawLoading = true
+    async draw() {
+      var drums = new Audio(this.drumRoll);
+      drums.play();
+      const validate = await this.validateDraw();
+      this.drawLoading = true;
       if (validate) {
-        this.$refs.requestForm.validate().then(async valid => {
+        this.$refs.requestForm.validate().then(async (valid) => {
           if (!valid) {
-            this.formHasError = true
+            this.formHasError = true;
           } else {
-            this.raffleWinners.push(this.raffleEntries)
-            const entries = await this.shuffleEntries()
-            console.log(entries)
+            this.raffleWinners.push(this.raffleEntries);
+            const entries = await this.shuffleEntries();
+            console.log(entries);
             if (this.finalRaffleEntryWinners.length > 0) {
               for (var entryWinners of this.finalRaffleEntryWinners) {
-                entryWinners.entry_id = entryWinners.user_code
-                entryWinners.raffle_id = this.raffleDetails.raffleID
+                entryWinners.entry_id = entryWinners.user_code;
+                entryWinners.raffle_id = this.raffleDetails.raffleID;
               }
-              var saveRaffleWinners = await this.$store.dispatch('saveRaffleWinners', this.finalRaffleEntryWinners)
-              console.log(saveRaffleWinners)
-              this.getRaffleEntries()
+              var saveRaffleWinners = await this.$store.dispatch(
+                "saveRaffleWinners",
+                this.finalRaffleEntryWinners
+              );
+              console.log(saveRaffleWinners);
+              this.getRaffleEntries();
             }
             if (saveRaffleWinners.success !== undefined) {
               // drums.pause()
               // this.$router.push('/winners/' + this.drawCategories)
               setTimeout(() => {
-                this.drawLoading = false
-                this.showDrawCard = false
-                this.showDrawCard = true
-                drums.pause()
-                this.$router.push('/winners-list/' + this.raffleDetails.raffleID)
-              }, 5000)
+                this.drawLoading = false;
+                this.showDrawCard = false;
+                this.showDrawCard = true;
+                drums.pause();
+                this.$router.push(
+                  "/winners-list/" + this.raffleDetails.raffleID
+                );
+              }, 5000);
             }
             // const raffleInfo = {
             //   category: this.drawCategories,
@@ -278,26 +342,26 @@ export default {
             //   this.$router.push('/winners/' + this.drawCategories)
             // }, 5000)
           }
-        })
+        });
       }
     },
-    async getWinners () {
-      var drums = new Audio(this.drumRoll)
-      drums.play()
-      this.drawLoading = true
+    async getWinners() {
+      var drums = new Audio(this.drumRoll);
+      drums.play();
+      this.drawLoading = true;
       setTimeout(() => {
-        this.drawLoading = false
-        this.showDrawCard = false
-        this.showDrawCard = true
-        drums.pause()
-        this.$router.push('/winners-list/' + this.raffleDetails.raffleID)
-      }, 5000)
-    }
+        this.drawLoading = false;
+        this.showDrawCard = false;
+        this.showDrawCard = true;
+        drums.pause();
+        this.$router.push("/winners-list/" + this.raffleDetails.raffleID);
+      }, 5000);
+    },
   },
-  created () {
-    this.cardLoading()
-  }
-}
+  created() {
+    this.cardLoading();
+  },
+};
 </script>
 
 <style lang="sass" scoped>

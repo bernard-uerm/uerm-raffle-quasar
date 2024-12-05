@@ -8,7 +8,7 @@
           </q-card-section>
           <q-card-actions
             align="center"
-            class="text-weight-thin bg-red-10 cursor-pointer text-h3"
+            class="text-weight-thin bg-red-10 cursor-pointer text-h3 text-white"
             v-ripple
             @click="startRaffle"
           >

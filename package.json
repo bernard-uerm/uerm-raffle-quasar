@@ -6,20 +6,21 @@
   "author": "Bernard Gresola <btgresola@uerm.edu.ph>",
   "private": true,
   "scripts": {
+    "dev": "export NODE_OPTIONS=--openssl-legacy-provider && quasar dev",
     "lint": "eslint --ext .js,.vue ./",
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
-    "@quasar/extras": "^1.0.0",
+    "@quasar/extras": "^1.16.14",
     "axios": "^0.18.1",
     "core-js": "^3.6.5",
-    "quasar": "^1.0.0",
+    "quasar": "^1.22.10",
     "vue-page-transition": "^0.2.2",
     "vue-snowf": "0.0.2",
     "xlsx": "^0.16.9"
   },
   "devDependencies": {
-    "@quasar/app": "^2.0.0",
+    "@quasar/app": "^2.4.4",
     "babel-eslint": "^10.0.1",
     "eslint": "^6.8.0",
     "eslint-config-standard": "^14.1.0",
@@ -28,7 +29,8 @@
     "eslint-plugin-node": "^11.0.0",
     "eslint-plugin-promise": "^4.0.1",
     "eslint-plugin-standard": "^4.0.0",
-    "eslint-plugin-vue": "^6.1.2"
+    "eslint-plugin-vue": "^6.1.2",
+    "prettier": "^2.8.8"
   },
   "browserslist": [
     "last 10 Chrome versions",

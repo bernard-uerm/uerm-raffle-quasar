@@ -19,11 +19,12 @@ const actions = {
       }
     ).then((response) => response.json())
     if (categories.length > 0) {
-      const categoryArr = []
+      const categoryArr = ['ALL']
       for (var result of categories) {
         const categoryName = result.category
         categoryArr.push(categoryName)
       }
+
       state.commit('setCategory', categoryArr)
       return categories
     }

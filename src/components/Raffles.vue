@@ -2,20 +2,25 @@
   <div>
     <div class="row items-start q-gutter-sm justify-center">
       <q-card
-        class="card-raffle text-white card-border-primary relative-position"
+        class="card-raffle text-white bg-white card-border-primary relative-position"
         v-for="raffle in raffles"
         :key="raffle.name"
         v-bind="raffle"
       >
         <div></div>
         <transition
-            appear
-            enter-active-class="animated fadeIn"
-            leave-active-class="animated fadeOut"
-          >
+          appear
+          enter-active-class="animated fadeIn"
+          leave-active-class="animated fadeOut"
+        >
           <div v-show="showCard">
             <q-card-section>
-              <div class="text-h6 text-weight-thin text-blue-10 text-uppercase">{{raffle.name}}</div>
+              <div
+                style="font-size: 22px"
+                class="text-bold text-blue-10 text-uppercase"
+              >
+                {{ raffle.name }}
+              </div>
             </q-card-section>
             <q-card-actions class="row items-start q-gutter-md justify-center">
               <q-btn
@@ -39,40 +44,38 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters } from "vuex";
 export default {
-  data () {
+  data() {
     return {
       showCard: false,
-      showLoading: false
-    }
+      showLoading: false,
+    };
   },
   methods: {
-    cardLoading () {
-      this.showLoading = true
+    cardLoading() {
+      this.showLoading = true;
       setTimeout(() => {
-        this.showLoading = false
-        this.showCard = false
-        this.showCard = true
-      }, 3000)
+        this.showLoading = false;
+        this.showCard = false;
+        this.showCard = true;
+      }, 3000);
     },
-    async getRaffles () {
-      await this.$store.dispatch('getRaffles')
+    async getRaffles() {
+      await this.$store.dispatch("getRaffles");
     },
-    drawRaffle (raffle) {
-      this.$router.push('/raffle-draw/' + raffle)
-    }
+    drawRaffle(raffle) {
+      this.$router.push("/raffle-draw/" + raffle);
+    },
   },
-  mounted () {
-    this.getRaffles()
-    this.cardLoading()
+  mounted() {
+    this.getRaffles();
+    this.cardLoading();
   },
   computed: {
-    ...mapGetters([
-      'raffles'
-    ])
-  }
-}
+    ...mapGetters(["raffles"]),
+  },
+};
 </script>
 
 <style lang="sass" scoped>
